@@ -210,7 +210,7 @@ body#body section.hero .inner .main_heading {
   margin: 20px 0px;
 }
 body#body section.hero .inner .right {
-  background-image: url("/assets/images/profile.png");
+  background-image: url("https://arsalanmughal23.github.io/portfolio//assets/images/profile.png");
   background-repeat: no-repeat;
   width: 40%;
   height: inherit;

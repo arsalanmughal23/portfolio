@@ -8,6 +8,7 @@ $light-font-color: white
 $dark-primary-color: #17ae9d
 $dark-secondary-color: #171d1d
 $dark-font-color: black
+$BASE_URL:'https://arsalanmughal23.github.io/portfolio/'
 
 @mixin theme($primary-color, $secondary-color, $font-color)
   --primary-color: #{$primary-color}
@@ -201,7 +202,7 @@ body#body
     .main_heading
       margin: 20px 0px
     .right
-      background-image: url('/assets/images/profile.png')
+      background-image: url($BASE_URL+'/assets/images/profile.png')
       background-repeat: no-repeat
       width: 40%
       height: inherit
