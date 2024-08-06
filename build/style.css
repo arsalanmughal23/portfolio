@@ -235,7 +235,7 @@ body#body section.comming-soon .inner {
   justify-content: center;
 }
 body#body section.comming-soon .inner h2 {
-  -webkit-text-stroke: 1px white;
+  -webkit-text-stroke: 1.5px var(--font-color);
   text-align: center;
 }
 @media (max-width: 950px) {
