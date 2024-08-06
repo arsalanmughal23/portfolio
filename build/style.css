@@ -230,6 +230,14 @@ body#body section.hero .inner .left .buttons button.button-primary {
 body#body section.hero .inner .left .buttons button.button-primary:hover {
   transition: 0.4s;
 }
+body#body section.comming-soon .inner {
+  display: flex;
+  justify-content: center;
+}
+body#body section.comming-soon .inner h2 {
+  -webkit-text-stroke: 1px white;
+  text-align: center;
+}
 @media (max-width: 950px) {
   body#body .inner {
     padding: 0px;
