@@ -6,6 +6,7 @@
 > ## How to Run Project
 > Run the project by using given below command
   > ```
+  > visit: file:///E:/arsalan/projects/portfolio/index.html
   > npm run start
   > ```
 -->

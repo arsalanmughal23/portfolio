@@ -1,0 +1,21 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "> #PHP #Laravel #MERN-Stack #Typescript",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build:sass": "sass ./assets/styles/style.sass ./build/style.css",
+    "watch:sass": "sass --watch ./assets/styles/style.sass:./build/style.css",
+    "serve": "live-server",
+    "start": "concurrently \"npm run watch:sass\" \"npm run serve\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "live-server": "^1.2.2",
+    "sass": "^1.77.8"
+  }
+}

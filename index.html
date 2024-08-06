@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="./build/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+</head>
+
+<style>
+</style>
+
+<body class="dark-theme" id="body">
+
+    <header class="header">
+        <div class="inner">
+            <nav class="navbar">
+                <div class="sections-menu">
+                    <ul class="menu-list">
+                        <li class="active menu-item">
+                            <a href="#Home">Home</a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="#About">About</a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="#Services">Services</a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="#Projects">Projects</a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="#Testimonials">Testimonials</a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="#Contact">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="top-right-menu">
+                    <ul class="address-menu-list">
+                        <li class="menu-item">
+                            <a href="mailto:arsalanmughal23@gmail.com">arsalanmughal23@gmail.com</a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="tel:+923152929408">+92 3152929408</a>
+                        </li>
+                    </ul>
+                    <ul class="theme-menu-list">
+                        <li class="menu-item">
+                            <label class="switch-theme-color" >
+                                <input type="checkbox" name="is_dark_theme" id="darkThemeSwitch" checked>
+                                <span class="slider">
+                                    <i class="icon fa fa-sun"></i>
+                                    <i class="icon fa fa-moon"></i>
+                                </span>
+                            </label>
+                        </li>
+                        <li class="menu-item mobile-menu" id="mobileMenuBtn">
+                            <i class="icon fa fa-bars"></i>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="inner">
+            <div class="left">
+                <h4 class="sub_heading">Salam, I am</h4>
+                <h2 class="main_heading">Arsalan Mughal</h2>
+                <h4 class="sub_heading">Fullstack Developer</h4>
+                <p>Welcome to my portfolio, checkout my services, projects & contact me for further queries.</p>
+                <div class="buttons">
+                    <a href="./assets/files/resume.pdf" target="_blank" >
+                        <button class="button-primary">Get Resume</button>
+                    </a>
+                    <button class="button-outline-primary">Read More</button>
+                </div>
+            </div>
+            <div class="right">
+            </div>
+        </div>
+    </section>
+
+    <!-- <nav class="menu">Menu</nav>
+    <section class="hero">Hero</section>
+    <section class="about">About</section>
+    <section class="service">Services</section>
+    <article class="project">Projects</article>
+    <footer class="testimonial">Testimonials</footer>
+    <footer class="footer">footer</footer> -->
+
+
+    <script>        
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            let bodyElem = {
+                elem: document.getElementById('body'),
+                switchDarkTheme: (isDarkTheme) => {
+                    console.log('test', bodyElem.elem)
+                    bodyElem.elem.classList.toggle(isDarkTheme ? 'dark-theme' : 'light-theme')
+                    bodyElem.elem.classList.toggle(isDarkTheme ? 'light-theme' : 'dark-theme')
+                }
+            };
+
+            let mobileMenuElem = {
+                elem: document.getElementById('mobileMenuBtn'),
+                toggleMenu: () => {
+                    mobileMenuElem.elem.classList.toggle('active')
+                    mobileMenuElem.elem.querySelector('i.icon').classList.toggle('fa-bars')
+                    mobileMenuElem.elem.querySelector('i.icon').classList.toggle('fa-x')
+                }
+            }
+
+            mobileMenuElem.elem.addEventListener('click', (e) => {
+                mobileMenuElem.toggleMenu();
+            })
+
+            let inputCheckboxDarkThemeElem = document.getElementById('darkThemeSwitch');
+            inputCheckboxDarkThemeElem.addEventListener('change', (e) => {
+                bodyElem.switchDarkTheme(inputCheckboxDarkThemeElem.checked)
+            })
+        })
+    </script>
+</body>
+</html>
