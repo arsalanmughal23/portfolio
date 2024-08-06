@@ -1,0 +1,243 @@
+$font-stack: Helvetica, sans-serif
+// $primary-color: #140524
+// $secondary-color: #bd164e
+$light-primary-color: #17ae9d
+$light-secondary-color: #fff
+$light-font-color: white
+
+$dark-primary-color: #17ae9d
+$dark-secondary-color: #171d1d
+$dark-font-color: black
+
+@mixin theme($primary-color, $secondary-color, $font-color)
+  --primary-color: #{$primary-color}
+  --secondary-color: #{$secondary-color}
+  --font-color: #{$font-color}
+  transition: 0.5s
+
+h1,h2,h3,h4,h5,h6
+  margin: 0px
+
+h2
+  font-size: 62px
+  font-weight: 900
+  line-height: 56px
+h3
+  font-size: 46px
+  font-weight: 900
+  line-height: 56px
+h4
+  font-size: 28px
+h5
+  font-size: 24px
+h6
+  font-size: 20px
+
+body.light-theme
+  @include theme($light-primary-color, $light-secondary-color, $dark-font-color)
+
+body.dark-theme
+  @include theme($dark-primary-color, $dark-secondary-color, $light-font-color)
+
+%text-decor-none
+  text-decoration: none
+  color: inherit
+
+%btn
+  border-radius: 50px
+  border-color: transparent
+  cursor: pointer
+%btn-sm
+  @extend %btn
+  padding: 5px 15px
+%btn-lg
+  @extend %btn
+  font-size: 18px
+  padding: 8px 20px
+
+%button-primary
+  color: var(--font-color)
+  border-radius: 50px
+
+%button-primary-active
+  background: var(--primary-color)
+  color: $light-font-color
+
+%button-outline-primary
+  background-color: transparent
+  color: var(--font-color)
+  border-color: $dark-primary-color
+
+%button-glow-primary
+  box-shadow: 0px 5px 30px rgba(23, 174, 157, 0.5)
+  transition: box-shadow 0.2s
+
+@keyframes fadeIn
+  0%
+    transform: scale(1)
+    opacity: 1
+  50%
+    transform: scale(0.5)
+    opacity: 0
+  100%
+    transform: scale(1)
+    opacity: 1
+
+body#body
+  background: var(--secondary-color)
+  font: 100% $font-stack
+  color: var(--primary-color)
+  padding: 0px
+  margin: 0px
+
+  .inner
+    padding: 0px 50px
+
+  header.header nav.navbar
+    div.sections-menu a,
+    div.top-right-menu a
+      @extend %text-decor-none
+
+
+  .switch-theme-color
+    width: 56px
+    height: 25px
+    position: relative
+    padding: 0px
+    border: 1px solid $dark-primary-color
+    border-radius: 35px
+    // display: inline-block
+    input[type=checkbox]
+      height: 0
+      width: 0
+      opacity: 0
+    input[type=checkbox] + .slider:before
+      transform: translateX(0px)
+      transition: .4s
+
+    input[type=checkbox]:checked + .slider:before
+      transform: translateX(31px)
+      transition: .4s
+    
+      
+    .slider
+      position: absolute
+      top: 0
+      left: 0
+      bottom: 0
+      right: 0
+      // background: white
+      display: flex
+      justify-content: space-between
+      *
+        z-index: 1
+        padding: 0px 5px
+    .slider:before
+      position: absolute
+      content: ""
+      width: 21px
+      height: 21px
+      top: 1px
+      left: 1px
+      background: $dark-primary-color
+      border: 1px solid $dark-primary-color
+      border-radius: 30px
+
+    input[type=checkbox] + .slider
+      .icon.fa-sun
+        color: white
+      .icon.fa-moon
+        color: $light-primary-color
+    input[type=checkbox]:checked + .slider
+      .icon.fa-sun
+        color: $light-primary-color
+      .icon.fa-moon
+        color: white
+
+  header.header
+    .inner
+      padding-right: 16px
+    nav.navbar
+      display: flex
+      justify-content: space-between
+      *
+        display: flex
+        align-items: center
+
+      div.sections-menu ul.menu-list, 
+      div.top-right-menu ul.address-menu-list,
+      div.top-right-menu ul.theme-menu-list
+          padding: 0px
+
+      div.sections-menu
+        ul.menu-list
+          li.menu-item
+            @extend %button-primary, %btn-sm
+            margin: 0px 8px
+          li.menu-item.active
+            @extend %button-primary-active
+
+      div.top-right-menu
+        ul.address-menu-list
+          li.menu-item
+            padding: 5px 3px
+            margin: 0px 3px
+            color: var(--font-color)
+        ul.theme-menu-list
+          padding-left: 20px
+          li.menu-item
+            margin: 0px 5px
+          .mobile-menu
+            font-size: 20px
+          .mobile-menu.active
+            animation: fadeIn .4s ease-in-out
+
+  section.hero .inner
+    color: var(--font-color)
+    height: 80vh
+    display: flex
+    justify-content: space-around
+    align-items: center
+    .main_heading
+      margin: 20px 0px
+    .right
+      background-image: url('/assets/images/profile.png')
+      background-repeat: no-repeat
+      width: 40%
+      height: inherit
+      max-width: 500px
+      min-width: 300px
+      background-size: contain
+      background-position: center
+    .left
+      .buttons
+        margin-top: 35px
+        display: flex
+        gap: 12px
+        button.button-primary
+          @extend %button-primary-active, %btn-lg
+          transition: .4s
+        button.button-primary:hover
+          @extend %button-outline-primary, %button-glow-primary
+          transition: .4s
+        button.button-outline-primary
+          @extend %button-outline-primary, %btn-lg
+        button.button-outline-primary:hover
+          @extend %button-glow-primary
+
+  @media (max-width: 950px)
+    .inner
+      padding: 0px
+      *
+        padding: 5px
+    header.header
+      nav.navbar
+        display: none
+    section.hero .inner
+      display: ruby
+      text-align: center
+      .left
+        .buttons
+          justify-content: center
+      .right
+        height: 400px

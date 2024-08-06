@@ -1,0 +1,255 @@
+h1, h2, h3, h4, h5, h6 {
+  margin: 0px;
+}
+
+h2 {
+  font-size: 62px;
+  font-weight: 900;
+  line-height: 56px;
+}
+
+h3 {
+  font-size: 46px;
+  font-weight: 900;
+  line-height: 56px;
+}
+
+h4 {
+  font-size: 28px;
+}
+
+h5 {
+  font-size: 24px;
+}
+
+h6 {
+  font-size: 20px;
+}
+
+body.light-theme {
+  --primary-color: #17ae9d;
+  --secondary-color: #fff;
+  --font-color: black;
+  transition: 0.5s;
+}
+
+body.dark-theme {
+  --primary-color: #17ae9d;
+  --secondary-color: #171d1d;
+  --font-color: white;
+  transition: 0.5s;
+}
+
+body#body header.header nav.navbar div.sections-menu a,
+body#body header.header nav.navbar div.top-right-menu a {
+  text-decoration: none;
+  color: inherit;
+}
+
+body#body section.hero .inner .left .buttons button.button-outline-primary, body#body section.hero .inner .left .buttons button.button-primary, body#body header.header nav.navbar div.sections-menu ul.menu-list li.menu-item {
+  border-radius: 50px;
+  border-color: transparent;
+  cursor: pointer;
+}
+
+body#body header.header nav.navbar div.sections-menu ul.menu-list li.menu-item {
+  padding: 5px 15px;
+}
+
+body#body section.hero .inner .left .buttons button.button-outline-primary, body#body section.hero .inner .left .buttons button.button-primary {
+  font-size: 18px;
+  padding: 8px 20px;
+}
+
+body#body header.header nav.navbar div.sections-menu ul.menu-list li.menu-item {
+  color: var(--font-color);
+  border-radius: 50px;
+}
+
+body#body section.hero .inner .left .buttons button.button-primary, body#body header.header nav.navbar div.sections-menu ul.menu-list li.menu-item.active {
+  background: var(--primary-color);
+  color: white;
+}
+
+body#body section.hero .inner .left .buttons button.button-outline-primary, body#body section.hero .inner .left .buttons button.button-primary:hover {
+  background-color: transparent;
+  color: var(--font-color);
+  border-color: #17ae9d;
+}
+
+body#body section.hero .inner .left .buttons button.button-outline-primary:hover, body#body section.hero .inner .left .buttons button.button-primary:hover {
+  box-shadow: 0px 5px 30px rgba(23, 174, 157, 0.5);
+  transition: box-shadow 0.2s;
+}
+
+@keyframes fadeIn {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+body#body {
+  background: var(--secondary-color);
+  font: 100% Helvetica, sans-serif;
+  color: var(--primary-color);
+  padding: 0px;
+  margin: 0px;
+}
+body#body .inner {
+  padding: 0px 50px;
+}
+body#body .switch-theme-color {
+  width: 56px;
+  height: 25px;
+  position: relative;
+  padding: 0px;
+  border: 1px solid #17ae9d;
+  border-radius: 35px;
+}
+body#body .switch-theme-color input[type=checkbox] {
+  height: 0;
+  width: 0;
+  opacity: 0;
+}
+body#body .switch-theme-color input[type=checkbox] + .slider:before {
+  transform: translateX(0px);
+  transition: 0.4s;
+}
+body#body .switch-theme-color input[type=checkbox]:checked + .slider:before {
+  transform: translateX(31px);
+  transition: 0.4s;
+}
+body#body .switch-theme-color .slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+}
+body#body .switch-theme-color .slider * {
+  z-index: 1;
+  padding: 0px 5px;
+}
+body#body .switch-theme-color .slider:before {
+  position: absolute;
+  content: "";
+  width: 21px;
+  height: 21px;
+  top: 1px;
+  left: 1px;
+  background: #17ae9d;
+  border: 1px solid #17ae9d;
+  border-radius: 30px;
+}
+body#body .switch-theme-color input[type=checkbox] + .slider .icon.fa-sun {
+  color: white;
+}
+body#body .switch-theme-color input[type=checkbox] + .slider .icon.fa-moon {
+  color: #17ae9d;
+}
+body#body .switch-theme-color input[type=checkbox]:checked + .slider .icon.fa-sun {
+  color: #17ae9d;
+}
+body#body .switch-theme-color input[type=checkbox]:checked + .slider .icon.fa-moon {
+  color: white;
+}
+body#body header.header .inner {
+  padding-right: 16px;
+}
+body#body header.header nav.navbar {
+  display: flex;
+  justify-content: space-between;
+}
+body#body header.header nav.navbar * {
+  display: flex;
+  align-items: center;
+}
+body#body header.header nav.navbar div.sections-menu ul.menu-list,
+body#body header.header nav.navbar div.top-right-menu ul.address-menu-list,
+body#body header.header nav.navbar div.top-right-menu ul.theme-menu-list {
+  padding: 0px;
+}
+body#body header.header nav.navbar div.sections-menu ul.menu-list li.menu-item {
+  margin: 0px 8px;
+}
+body#body header.header nav.navbar div.top-right-menu ul.address-menu-list li.menu-item {
+  padding: 5px 3px;
+  margin: 0px 3px;
+  color: var(--font-color);
+}
+body#body header.header nav.navbar div.top-right-menu ul.theme-menu-list {
+  padding-left: 20px;
+}
+body#body header.header nav.navbar div.top-right-menu ul.theme-menu-list li.menu-item {
+  margin: 0px 5px;
+}
+body#body header.header nav.navbar div.top-right-menu ul.theme-menu-list .mobile-menu {
+  font-size: 20px;
+}
+body#body header.header nav.navbar div.top-right-menu ul.theme-menu-list .mobile-menu.active {
+  animation: fadeIn 0.4s ease-in-out;
+}
+body#body section.hero .inner {
+  color: var(--font-color);
+  height: 80vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+body#body section.hero .inner .main_heading {
+  margin: 20px 0px;
+}
+body#body section.hero .inner .right {
+  background-image: url("/assets/images/profile.png");
+  background-repeat: no-repeat;
+  width: 40%;
+  height: inherit;
+  max-width: 500px;
+  min-width: 300px;
+  background-size: contain;
+  background-position: center;
+}
+body#body section.hero .inner .left .buttons {
+  margin-top: 35px;
+  display: flex;
+  gap: 12px;
+}
+body#body section.hero .inner .left .buttons button.button-primary {
+  transition: 0.4s;
+}
+body#body section.hero .inner .left .buttons button.button-primary:hover {
+  transition: 0.4s;
+}
+@media (max-width: 950px) {
+  body#body .inner {
+    padding: 0px;
+  }
+  body#body .inner * {
+    padding: 5px;
+  }
+  body#body header.header nav.navbar {
+    display: none;
+  }
+  body#body section.hero .inner {
+    display: ruby;
+    text-align: center;
+  }
+  body#body section.hero .inner .left .buttons {
+    justify-content: center;
+  }
+  body#body section.hero .inner .right {
+    height: 400px;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */
