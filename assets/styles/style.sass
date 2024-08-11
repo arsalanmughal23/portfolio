@@ -9,6 +9,7 @@ $dark-primary-color: #17ae9d
 $dark-secondary-color: #171d1d
 $dark-font-color: black
 $BASE_URL:'https://arsalanmughal23.github.io/portfolio/'
+// $BASE_URL:'http://127.0.0.1:8080/'
 
 @mixin theme($primary-color, $secondary-color, $font-color)
   --primary-color: #{$primary-color}
@@ -106,6 +107,7 @@ body#body
     position: relative
     padding: 0px
     border: 1px solid $dark-primary-color
+    display: flex
     border-radius: 35px
     // display: inline-block
     input[type=checkbox]
@@ -129,6 +131,7 @@ body#body
       right: 0
       // background: white
       display: flex
+      align-items: center
       justify-content: space-between
       *
         z-index: 1
@@ -188,10 +191,6 @@ body#body
           padding-left: 20px
           li.menu-item
             margin: 0px 5px
-          .mobile-menu
-            font-size: 20px
-          .mobile-menu.active
-            animation: fadeIn .4s ease-in-out
 
   section.hero .inner
     color: var(--font-color)
@@ -238,11 +237,23 @@ body#body
   @media (max-width: 950px)
     .inner
       padding: 0px
-      *
-        padding: 5px
+    .inner>*
+      padding: 5px
     header.header
+      width: 100vw
+      height: auto
+      position: absolute
+      background: var(--secondary-color)
       nav.navbar
-        display: none
+        // box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3)
+        display: block
+        div.sections-menu
+          ul.menu-list
+            display: block
+        div.top-right-menu
+          display: block
+          ul
+            display: block
     section.hero .inner
       display: ruby
       text-align: center

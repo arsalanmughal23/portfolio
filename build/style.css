@@ -112,6 +112,7 @@ body#body .switch-theme-color {
   position: relative;
   padding: 0px;
   border: 1px solid #17ae9d;
+  display: flex;
   border-radius: 35px;
 }
 body#body .switch-theme-color input[type=checkbox] {
@@ -134,6 +135,7 @@ body#body .switch-theme-color .slider {
   bottom: 0;
   right: 0;
   display: flex;
+  align-items: center;
   justify-content: space-between;
 }
 body#body .switch-theme-color .slider * {
@@ -193,12 +195,6 @@ body#body header.header nav.navbar div.top-right-menu ul.theme-menu-list {
 body#body header.header nav.navbar div.top-right-menu ul.theme-menu-list li.menu-item {
   margin: 0px 5px;
 }
-body#body header.header nav.navbar div.top-right-menu ul.theme-menu-list .mobile-menu {
-  font-size: 20px;
-}
-body#body header.header nav.navbar div.top-right-menu ul.theme-menu-list .mobile-menu.active {
-  animation: fadeIn 0.4s ease-in-out;
-}
 body#body section.hero .inner {
   color: var(--font-color);
   height: 80vh;
@@ -210,7 +206,7 @@ body#body section.hero .inner .main_heading {
   margin: 20px 0px;
 }
 body#body section.hero .inner .right {
-  background-image: url("https://arsalanmughal23.github.io/portfolio//assets/images/profile.png");
+  background-image: url("http://127.0.0.1:8080//assets/images/profile.png");
   background-repeat: no-repeat;
   width: 40%;
   height: inherit;
@@ -242,11 +238,26 @@ body#body section.comming-soon .inner h2 {
   body#body .inner {
     padding: 0px;
   }
-  body#body .inner * {
+  body#body .inner > * {
     padding: 5px;
   }
+  body#body header.header {
+    width: 100vw;
+    height: auto;
+    position: absolute;
+    background: var(--secondary-color);
+  }
   body#body header.header nav.navbar {
-    display: none;
+    display: block;
+  }
+  body#body header.header nav.navbar div.sections-menu ul.menu-list {
+    display: block;
+  }
+  body#body header.header nav.navbar div.top-right-menu {
+    display: block;
+  }
+  body#body header.header nav.navbar div.top-right-menu ul {
+    display: block;
   }
   body#body section.hero .inner {
     display: ruby;

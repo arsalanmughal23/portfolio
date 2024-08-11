@@ -17,6 +17,9 @@
 
     <header class="header">
         <div class="inner">
+            <div class="mobile-menu-icon">
+                <i class="fa fa-bars"></i>
+            </div>
             <nav class="navbar">
                 <div class="sections-menu">
                     <ul class="menu-list">
@@ -52,19 +55,17 @@
                     <ul class="theme-menu-list">
                         <li class="menu-item">
                             <label class="switch-theme-color" >
-                                <input type="checkbox" name="is_dark_theme" id="darkThemeSwitch" checked>
+                                <input type="checkbox" name="is_dark_theme" checked>
                                 <span class="slider">
                                     <i class="icon fa fa-sun"></i>
                                     <i class="icon fa fa-moon"></i>
                                 </span>
                             </label>
                         </li>
-                        <li class="menu-item mobile-menu" id="mobileMenuBtn">
-                            <i class="icon fa fa-bars"></i>
-                        </li>
                     </ul>
                 </div>
             </nav>
+
         </div>
     </header>
 
@@ -124,11 +125,11 @@
                 }
             }
 
-            mobileMenuElem.elem.addEventListener('click', (e) => {
-                mobileMenuElem.toggleMenu();
-            })
+            // mobileMenuElem.elem.addEventListener('click', (e) => {
+            //     mobileMenuElem.toggleMenu();
+            // })
 
-            let inputCheckboxDarkThemeElem = document.getElementById('darkThemeSwitch');
+            let inputCheckboxDarkThemeElem = document.querySelector('input[name=is_dark_theme]');
             inputCheckboxDarkThemeElem.addEventListener('change', (e) => {
                 bodyElem.switchDarkTheme(inputCheckboxDarkThemeElem.checked)
             })
