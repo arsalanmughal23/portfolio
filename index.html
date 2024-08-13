@@ -17,52 +17,56 @@
 
     <header class="header">
         <div class="inner">
-            <div class="mobile-menu-icon">
+
+            <div class="mobile-menu-icon" id="mobileMenuBtn">
                 <i class="fa fa-bars"></i>
             </div>
             <nav class="navbar">
-                <div class="sections-menu">
-                    <ul class="menu-list">
-                        <li class="active menu-item">
-                            <a href="#Home">Home</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#About">About</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#Services">Services</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#Projects">Projects</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#Testimonials">Testimonials</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#Contact">Contact</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="top-right-menu">
-                    <ul class="address-menu-list">
-                        <li class="menu-item">
-                            <a href="mailto:arsalanmughal23@gmail.com">arsalanmughal23@gmail.com</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="tel:+923152929408">+92 3152929408</a>
-                        </li>
-                    </ul>
-                    <ul class="theme-menu-list">
-                        <li class="menu-item">
-                            <label class="switch-theme-color" >
-                                <input type="checkbox" name="is_dark_theme" checked>
-                                <span class="slider">
-                                    <i class="icon fa fa-sun"></i>
-                                    <i class="icon fa fa-moon"></i>
-                                </span>
-                            </label>
-                        </li>
-                    </ul>
+                <div class="inner">
+                    
+                    <div class="sections-menu">
+                        <ul class="menu-list">
+                            <li class="active menu-item">
+                                <a href="#Home">Home</a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="#About">About</a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="#Services">Services</a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="#Projects">Projects</a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="#Testimonials">Testimonials</a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="#Contact">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="top-right-menu">
+                        <ul class="address-menu-list">
+                            <li class="menu-item">
+                                <a href="mailto:arsalanmughal23@gmail.com">arsalanmughal23@gmail.com</a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="tel:+923152929408">03152929408</a>
+                            </li>
+                        </ul>
+                        <ul class="theme-menu-list">
+                            <li class="menu-item">
+                                <label class="switch-theme-color" >
+                                    <input type="checkbox" name="is_dark_theme" checked>
+                                    <span class="slider">
+                                        <i class="icon fa fa-sun"></i>
+                                        <i class="icon fa fa-moon"></i>
+                                    </span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </nav>
 
@@ -132,6 +136,11 @@
             let inputCheckboxDarkThemeElem = document.querySelector('input[name=is_dark_theme]');
             inputCheckboxDarkThemeElem.addEventListener('change', (e) => {
                 bodyElem.switchDarkTheme(inputCheckboxDarkThemeElem.checked)
+            })
+
+            let mobileMenuButtonElem = document.getElementById('mobileMenuBtn');
+            mobileMenuButtonElem.addEventListener('click', (e) => {
+                document.querySelector('header.header>.inner>nav.navbar').classList.toggle('active')
             })
         })
     </script>

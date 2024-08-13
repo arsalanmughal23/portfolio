@@ -8,8 +8,8 @@ $light-font-color: white
 $dark-primary-color: #17ae9d
 $dark-secondary-color: #171d1d
 $dark-font-color: black
-$BASE_URL:'https://arsalanmughal23.github.io/portfolio/'
-// $BASE_URL:'http://127.0.0.1:8080/'
+$BASE_URL:'https://arsalanmughal23.github.io/portfolio'
+// $BASE_URL:'http://127.0.0.1:8080'
 
 @mixin theme($primary-color, $secondary-color, $font-color)
   --primary-color: #{$primary-color}
@@ -49,6 +49,8 @@ body.dark-theme
   border-radius: 50px
   border-color: transparent
   cursor: pointer
+  width: max-content
+
 %btn-sm
   @extend %btn
   padding: 5px 15px
@@ -92,9 +94,6 @@ body#body
   padding: 0px
   margin: 0px
 
-  .inner
-    padding: 0px 50px
-
   header.header nav.navbar
     div.sections-menu a,
     div.top-right-menu a
@@ -109,6 +108,7 @@ body#body
     border: 1px solid $dark-primary-color
     display: flex
     border-radius: 35px
+    direction: ltr
     // display: inline-block
     input[type=checkbox]
       height: 0
@@ -158,26 +158,29 @@ body#body
       .icon.fa-moon
         color: white
 
-  header.header
+  header.header    
     .inner
-      padding-right: 16px
-    nav.navbar
+      padding: 0px 16px
+      .mobile-menu-icon
+        display: none
+    nav.navbar>.inner
       display: flex
       justify-content: space-between
-      *
+      div.sections-menu>ul, div.top-right-menu, div.top-right-menu>ul.address-menu-list
         display: flex
-        align-items: center
+      div>ul
+        list-style: none
 
       div.sections-menu ul.menu-list, 
       div.top-right-menu ul.address-menu-list,
       div.top-right-menu ul.theme-menu-list
-          padding: 0px
+        padding: 0px
 
       div.sections-menu
         ul.menu-list
           li.menu-item
             @extend %button-primary, %btn-sm
-            margin: 0px 8px
+            // margin: 0px 8px
           li.menu-item.active
             @extend %button-primary-active
 
@@ -235,30 +238,59 @@ body#body
         text-align: center
 
   @media (max-width: 950px)
-    .inner
-      padding: 0px
-    .inner>*
-      padding: 5px
     header.header
-      width: 100vw
-      height: auto
-      position: absolute
-      background: var(--secondary-color)
-      nav.navbar
-        // box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3)
-        display: block
-        div.sections-menu
-          ul.menu-list
-            display: block
-        div.top-right-menu
+      width: 100%
+      height: 35px
+      position: relative
+      right: 0px
+      .inner
+        padding: 0px
+        direction: rtl
+        .mobile-menu-icon
           display: block
-          ul
+          font-size: 24px
+          height: fit-content
+          position: fixed
+          z-index: 1
+          right: 10px
+          top: 6px
+          cursor: pointer
+
+        nav.navbar.active
+          transition: all .4s
+          visibility: visible
+          width: 100vw
+        nav.navbar>*
+          transition: all .4s
+          padding: 0px
+        nav.navbar.active>*
+          transition: all .4s
+          padding: 10px
+        nav.navbar
+          top: 0px
+          transition: all .4s
+          // box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3)
+          overflow: hidden
+          width: 0px
+          height: auto
+          position: fixed
+          background: var(--secondary-color)
+          display: block
+          border-bottom-left-radius: 10px
+          .inner
+            margin-top: 20px
             display: block
+            div.sections-menu>ul, div.top-right-menu, div.top-right-menu>ul.address-menu-list
+              display: block
     section.hero .inner
-      display: ruby
+      height: fit-content
+      display: grid
       text-align: center
+      justify-items: center
       .left
         .buttons
           justify-content: center
       .right
         height: 400px
+        width: 100%
+        margin: 25px

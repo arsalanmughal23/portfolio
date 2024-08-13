@@ -46,13 +46,14 @@ body#body header.header nav.navbar div.top-right-menu a {
   color: inherit;
 }
 
-body#body section.hero .inner .left .buttons button.button-outline-primary, body#body section.hero .inner .left .buttons button.button-primary, body#body header.header nav.navbar div.sections-menu ul.menu-list li.menu-item {
+body#body section.hero .inner .left .buttons button.button-outline-primary, body#body section.hero .inner .left .buttons button.button-primary, body#body header.header nav.navbar > .inner div.sections-menu ul.menu-list li.menu-item {
   border-radius: 50px;
   border-color: transparent;
   cursor: pointer;
+  width: max-content;
 }
 
-body#body header.header nav.navbar div.sections-menu ul.menu-list li.menu-item {
+body#body header.header nav.navbar > .inner div.sections-menu ul.menu-list li.menu-item {
   padding: 5px 15px;
 }
 
@@ -61,12 +62,12 @@ body#body section.hero .inner .left .buttons button.button-outline-primary, body
   padding: 8px 20px;
 }
 
-body#body header.header nav.navbar div.sections-menu ul.menu-list li.menu-item {
+body#body header.header nav.navbar > .inner div.sections-menu ul.menu-list li.menu-item {
   color: var(--font-color);
   border-radius: 50px;
 }
 
-body#body section.hero .inner .left .buttons button.button-primary, body#body header.header nav.navbar div.sections-menu ul.menu-list li.menu-item.active {
+body#body section.hero .inner .left .buttons button.button-primary, body#body header.header nav.navbar > .inner div.sections-menu ul.menu-list li.menu-item.active {
   background: var(--primary-color);
   color: white;
 }
@@ -103,9 +104,6 @@ body#body {
   padding: 0px;
   margin: 0px;
 }
-body#body .inner {
-  padding: 0px 50px;
-}
 body#body .switch-theme-color {
   width: 56px;
   height: 25px;
@@ -114,6 +112,7 @@ body#body .switch-theme-color {
   border: 1px solid #17ae9d;
   display: flex;
   border-radius: 35px;
+  direction: ltr;
 }
 body#body .switch-theme-color input[type=checkbox] {
   height: 0;
@@ -166,33 +165,35 @@ body#body .switch-theme-color input[type=checkbox]:checked + .slider .icon.fa-mo
   color: white;
 }
 body#body header.header .inner {
-  padding-right: 16px;
+  padding: 0px 16px;
 }
-body#body header.header nav.navbar {
+body#body header.header .inner .mobile-menu-icon {
+  display: none;
+}
+body#body header.header nav.navbar > .inner {
   display: flex;
   justify-content: space-between;
 }
-body#body header.header nav.navbar * {
+body#body header.header nav.navbar > .inner div.sections-menu > ul, body#body header.header nav.navbar > .inner div.top-right-menu, body#body header.header nav.navbar > .inner div.top-right-menu > ul.address-menu-list {
   display: flex;
-  align-items: center;
 }
-body#body header.header nav.navbar div.sections-menu ul.menu-list,
-body#body header.header nav.navbar div.top-right-menu ul.address-menu-list,
-body#body header.header nav.navbar div.top-right-menu ul.theme-menu-list {
+body#body header.header nav.navbar > .inner div > ul {
+  list-style: none;
+}
+body#body header.header nav.navbar > .inner div.sections-menu ul.menu-list,
+body#body header.header nav.navbar > .inner div.top-right-menu ul.address-menu-list,
+body#body header.header nav.navbar > .inner div.top-right-menu ul.theme-menu-list {
   padding: 0px;
 }
-body#body header.header nav.navbar div.sections-menu ul.menu-list li.menu-item {
-  margin: 0px 8px;
-}
-body#body header.header nav.navbar div.top-right-menu ul.address-menu-list li.menu-item {
+body#body header.header nav.navbar > .inner div.top-right-menu ul.address-menu-list li.menu-item {
   padding: 5px 3px;
   margin: 0px 3px;
   color: var(--font-color);
 }
-body#body header.header nav.navbar div.top-right-menu ul.theme-menu-list {
+body#body header.header nav.navbar > .inner div.top-right-menu ul.theme-menu-list {
   padding-left: 20px;
 }
-body#body header.header nav.navbar div.top-right-menu ul.theme-menu-list li.menu-item {
+body#body header.header nav.navbar > .inner div.top-right-menu ul.theme-menu-list li.menu-item {
   margin: 0px 5px;
 }
 body#body section.hero .inner {
@@ -206,7 +207,7 @@ body#body section.hero .inner .main_heading {
   margin: 20px 0px;
 }
 body#body section.hero .inner .right {
-  background-image: url("http://127.0.0.1:8080//assets/images/profile.png");
+  background-image: url("https://arsalanmughal23.github.io/portfolio/assets/images/profile.png");
   background-repeat: no-repeat;
   width: 40%;
   height: inherit;
@@ -235,39 +236,70 @@ body#body section.comming-soon .inner h2 {
   text-align: center;
 }
 @media (max-width: 950px) {
-  body#body .inner {
+  body#body header.header {
+    width: 100%;
+    height: 35px;
+    position: relative;
+    right: 0px;
+  }
+  body#body header.header .inner {
+    padding: 0px;
+    direction: rtl;
+  }
+  body#body header.header .inner .mobile-menu-icon {
+    display: block;
+    font-size: 24px;
+    height: fit-content;
+    position: fixed;
+    z-index: 1;
+    right: 10px;
+    top: 6px;
+    cursor: pointer;
+  }
+  body#body header.header .inner nav.navbar.active {
+    transition: all 0.4s;
+    visibility: visible;
+    width: 100vw;
+  }
+  body#body header.header .inner nav.navbar > * {
+    transition: all 0.4s;
     padding: 0px;
   }
-  body#body .inner > * {
-    padding: 5px;
+  body#body header.header .inner nav.navbar.active > * {
+    transition: all 0.4s;
+    padding: 10px;
   }
-  body#body header.header {
-    width: 100vw;
+  body#body header.header .inner nav.navbar {
+    top: 0px;
+    transition: all 0.4s;
+    overflow: hidden;
+    width: 0px;
     height: auto;
-    position: absolute;
+    position: fixed;
     background: var(--secondary-color);
+    display: block;
+    border-bottom-left-radius: 10px;
   }
-  body#body header.header nav.navbar {
+  body#body header.header .inner nav.navbar .inner {
+    margin-top: 20px;
     display: block;
   }
-  body#body header.header nav.navbar div.sections-menu ul.menu-list {
-    display: block;
-  }
-  body#body header.header nav.navbar div.top-right-menu {
-    display: block;
-  }
-  body#body header.header nav.navbar div.top-right-menu ul {
+  body#body header.header .inner nav.navbar .inner div.sections-menu > ul, body#body header.header .inner nav.navbar .inner div.top-right-menu, body#body header.header .inner nav.navbar .inner div.top-right-menu > ul.address-menu-list {
     display: block;
   }
   body#body section.hero .inner {
-    display: ruby;
+    height: fit-content;
+    display: grid;
     text-align: center;
+    justify-items: center;
   }
   body#body section.hero .inner .left .buttons {
     justify-content: center;
   }
   body#body section.hero .inner .right {
     height: 400px;
+    width: 100%;
+    margin: 25px;
   }
 }
 
