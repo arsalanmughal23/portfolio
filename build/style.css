@@ -97,12 +97,31 @@ body#body section.hero .inner .left .buttons button.button-outline-primary:hover
     opacity: 1;
   }
 }
+body#body > * > .inner {
+  padding: 0 5rem;
+}
+
 body#body {
   background: var(--secondary-color);
   font: 100% Helvetica, sans-serif;
-  color: var(--primary-color);
   padding: 0px;
   margin: 0px;
+}
+body#body section.section {
+  padding: 3rem 0px 1rem;
+}
+body#body section.section .inner .title {
+  color: var(--font-color);
+  display: flex;
+  justify-content: center;
+}
+body#body section.section .inner .container {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  text-align: center;
+  padding: 20px 0px;
+  gap: 30px 10px;
 }
 body#body .switch-theme-color {
   width: 56px;
@@ -164,9 +183,6 @@ body#body .switch-theme-color input[type=checkbox]:checked + .slider .icon.fa-su
 body#body .switch-theme-color input[type=checkbox]:checked + .slider .icon.fa-moon {
   color: white;
 }
-body#body header.header .inner {
-  padding: 0px 16px;
-}
 body#body header.header .inner .mobile-menu-icon {
   display: none;
 }
@@ -207,7 +223,7 @@ body#body section.hero .inner .main_heading {
   margin: 20px 0px;
 }
 body#body section.hero .inner .right {
-  background-image: url("https://arsalanmughal23.github.io/portfolio/assets/images/profile.png");
+  background-image: url("http://127.0.0.1:8080/assets/images/profile.png");
   background-repeat: no-repeat;
   width: 40%;
   height: inherit;
@@ -227,15 +243,119 @@ body#body section.hero .inner .left .buttons button.button-primary {
 body#body section.hero .inner .left .buttons button.button-primary:hover {
   transition: 0.4s;
 }
+body#body section.services .inner .container .card.service {
+  max-width: 300px;
+  color: var(--font-color);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  justify-items: center;
+  display: grid;
+  padding: 15px 20px;
+  border-radius: 5px;
+  border: 2px solid transparent;
+  transition: 0.2s;
+  cursor: pointer;
+}
+body#body section.services .inner .container .card.service:hover {
+  transition: 0.2s;
+  border-color: var(--primary-color);
+}
+body#body section.services .inner .container .card.service i.icon {
+  font-size: 48px;
+  padding: 15px;
+}
+body#body section.projects .inner .container {
+  text-align: left;
+}
+body#body section.projects .inner .container .card.project {
+  width: 280px;
+  height: 500px;
+  background-size: cover !important;
+  border-radius: 10px;
+  mix-blend-mode: luminosity;
+  display: grid;
+  align-items: end;
+  overflow: hidden;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+body#body section.projects .inner .container .card.project:hover {
+  mix-blend-mode: normal;
+}
+body#body section.projects .inner .container .card.project:hover .content {
+  transition: 0.2s;
+  top: 0px;
+}
+body#body section.projects .inner .container .card.project .content {
+  padding: 0px 10px;
+  display: grid;
+  align-content: center;
+  transition: 0.2s;
+  height: 150px;
+  top: 150px;
+  position: relative;
+  justify-items: start;
+  background-color: rgba(23, 174, 157, 0.8);
+}
+body#body section.projects .inner .container .card.project .content .icons {
+  display: flex;
+  justify-content: end;
+  padding: 5px;
+  gap: 5px;
+}
+body#body section.projects .inner .container .card.project .content .icons .icon {
+  background-color: white;
+  border-radius: 50%;
+  padding: 4px;
+}
+body#body section.projects .inner .container .card.project .content .icons span {
+  background-size: contain !important;
+  display: block;
+  height: 20px;
+  width: 20px;
+}
+body#body section.projects .inner .container .card.project .content .icons .playstore {
+  background-image: url(../assets/images/platforms/playstore.png);
+}
+body#body section.projects .inner .container .card.project .content .icons .applestore {
+  background-image: url(../assets/images/platforms/appstore.png);
+}
+body#body section.projects .inner .container .card.project .content .icons .website {
+  background-image: url(../assets/images/platforms/website.png);
+}
+body#body section.projects .inner .container .card.project .content .icons .cms {
+  background-image: url(../assets/images/platforms/cms.png);
+}
+body#body section.projects .inner .container .card.project .content .description, body#body section.projects .inner .container .card.project .content .title {
+  color: white;
+}
+body#body section.projects .inner .container .card.project .content .head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+body#body section.projects .inner .container .card.project .content .description {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
 body#body section.comming-soon .inner {
   display: flex;
+  color: var(--primary-color);
   justify-content: center;
 }
 body#body section.comming-soon .inner h2 {
   -webkit-text-stroke: 1.5px var(--font-color);
   text-align: center;
 }
+
 @media (max-width: 950px) {
+  body#body > * > .inner {
+    padding: 1rem;
+  }
+  body#body > section.section {
+    padding: 1rem 0px 0px;
+  }
   body#body header.header {
     width: 100%;
     height: 35px;
@@ -299,7 +419,10 @@ body#body section.comming-soon .inner h2 {
   body#body section.hero .inner .right {
     height: 400px;
     width: 100%;
-    margin: 25px;
+    margin: 25px 0px;
+  }
+  body#body section.services .inner .container {
+    display: grid;
   }
 }
 
