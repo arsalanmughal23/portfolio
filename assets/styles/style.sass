@@ -8,8 +8,8 @@ $light-font-color: white
 $dark-primary-color: #17ae9d
 $dark-secondary-color: #171d1d
 $dark-font-color: black
-$BASE_URL:'https://arsalanmughal23.github.io/portfolio'
-// $BASE_URL:'http://127.0.0.1:8080'
+// $BASE_URL:'https://arsalanmughal23.github.io/portfolio'
+$BASE_URL:'http://127.0.0.1:8080'
 
 @mixin theme($primary-color, $secondary-color, $font-color)
   --primary-color: #{$primary-color}
@@ -87,12 +87,31 @@ body.dark-theme
     transform: scale(1)
     opacity: 1
 
+  
+body#body>*>.inner
+  padding: 0 5rem
+
 body#body
   background: var(--secondary-color)
   font: 100% $font-stack
-  color: var(--primary-color)
+  // color: var(--primary-color)
   padding: 0px
   margin: 0px
+
+  section.section
+    padding: 3rem 0px 1rem
+    .inner
+      .title
+        color: var(--font-color)
+        display: flex
+        justify-content: center
+      .container
+        display: flex
+        justify-content: space-evenly
+        flex-wrap: wrap
+        text-align: center
+        padding: 20px 0px
+        gap: 30px 10px
 
   header.header nav.navbar
     div.sections-menu a,
@@ -160,7 +179,6 @@ body#body
 
   header.header    
     .inner
-      padding: 0px 16px
       .mobile-menu-icon
         display: none
     nav.navbar>.inner
@@ -228,16 +246,109 @@ body#body
         button.button-outline-primary:hover
           @extend %button-glow-primary
 
+  section.services
+    .inner
+      .container
+        .card.service
+          max-width: 300px
+          color: var(--font-color)
+          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3)
+          // background-color: var(--primary-color)
+          justify-items: center
+          display: grid
+          padding: 15px 20px
+          border-radius: 5px
+          border: 2px solid transparent
+          transition: .2s
+          cursor: pointer
+          &:hover
+            transition: .2s
+            border-color: var(--primary-color)
+          i.icon
+            font-size: 48px
+            padding: 15px
+
+  section.projects
+    .inner
+      .container
+        text-align: left
+        .card.project
+          width: 280px
+          height: 500px
+          background-size: cover !important
+          border-radius: 10px
+          mix-blend-mode: luminosity
+          display: grid
+          align-items: end
+          overflow: hidden
+          box-shadow: 0px 0px 10px rgb(0 0 0 / 50%)
+          &:hover
+            mix-blend-mode: normal
+            .content
+              transition: .2s
+              top: 0px
+          .content
+            padding: 0px 10px
+            display: grid
+            align-content: center
+            transition: .2s
+            height: 150px
+            top: 150px
+            position: relative
+            justify-items: start
+            background-color: rgb(23 174 157 / 80%)
+            .icons
+              display: flex
+              justify-content: end
+              padding: 5px
+              gap: 5px
+              .icon
+                background-color: white
+                border-radius: 50%
+                padding: 4px
+              span
+                background-size: contain !important
+                display: block
+                height: 20px
+                width: 20px
+              .playstore
+                background-image: url(../assets/images/platforms/playstore.png)
+              .applestore
+                background-image: url(../assets/images/platforms/appstore.png)
+              .website
+                background-image: url(../assets/images/platforms/website.png)
+              .cms
+                background-image: url(../assets/images/platforms/cms.png)
+            .description, .title
+              color: white
+            .head
+              display: flex
+              justify-content: space-between
+              align-items: center
+              width: 100%
+            .description
+              overflow: hidden
+              display: -webkit-box
+              -webkit-line-clamp: 3
+              -webkit-box-orient: vertical
 
   section.comming-soon
     .inner
       display: flex
+      color: var(--primary-color)
       justify-content: center
       h2
         -webkit-text-stroke: 1.5px var(--font-color)
         text-align: center
 
-  @media (max-width: 950px)
+@media (max-width: 950px)
+  body#body>*>.inner
+    padding: 1rem
+  body#body>section.section
+    padding: 1rem 0px 0px
+
+
+  body#body
     header.header
       width: 100%
       height: 35px
@@ -293,4 +404,9 @@ body#body
       .right
         height: 400px
         width: 100%
-        margin: 25px
+        margin: 25px 0px
+    
+    section.services
+      .inner
+        .container
+          display: grid
