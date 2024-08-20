@@ -123,6 +123,9 @@ body#body section.section .inner .container {
   padding: 20px 0px;
   gap: 30px 10px;
 }
+body#body header.header nav.navbar {
+  z-index: 1;
+}
 body#body .switch-theme-color {
   width: 56px;
   height: 25px;
@@ -184,7 +187,9 @@ body#body .switch-theme-color input[type=checkbox]:checked + .slider .icon.fa-mo
   color: white;
 }
 body#body header.header .inner .mobile-menu-icon {
+  z-index: 2;
   display: none;
+  color: var(--font-color);
 }
 body#body header.header nav.navbar > .inner {
   display: flex;
@@ -223,7 +228,7 @@ body#body section.hero .inner .main_heading {
   margin: 20px 0px;
 }
 body#body section.hero .inner .right {
-  background-image: url("http://127.0.0.1:8080/assets/images/profile.png");
+  background-image: url("https://arsalanmughal23.github.io/portfolio/assets/images/profile.png");
   background-repeat: no-repeat;
   width: 40%;
   height: inherit;
@@ -371,7 +376,6 @@ body#body section.comming-soon .inner h2 {
     font-size: 24px;
     height: fit-content;
     position: fixed;
-    z-index: 1;
     right: 10px;
     top: 6px;
     cursor: pointer;
@@ -390,6 +394,7 @@ body#body section.comming-soon .inner h2 {
     padding: 10px;
   }
   body#body header.header .inner nav.navbar {
+    border-bottom: 3px solid var(--primary-color);
     top: 0px;
     transition: all 0.4s;
     overflow: hidden;

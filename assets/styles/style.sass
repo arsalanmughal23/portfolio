@@ -8,8 +8,8 @@ $light-font-color: white
 $dark-primary-color: #17ae9d
 $dark-secondary-color: #171d1d
 $dark-font-color: black
-// $BASE_URL:'https://arsalanmughal23.github.io/portfolio'
-$BASE_URL:'http://127.0.0.1:8080'
+$BASE_URL:'https://arsalanmughal23.github.io/portfolio'
+// $BASE_URL:'http://127.0.0.1:8080'
 
 @mixin theme($primary-color, $secondary-color, $font-color)
   --primary-color: #{$primary-color}
@@ -114,6 +114,7 @@ body#body
         gap: 30px 10px
 
   header.header nav.navbar
+    z-index: 1
     div.sections-menu a,
     div.top-right-menu a
       @extend %text-decor-none
@@ -180,7 +181,9 @@ body#body
   header.header    
     .inner
       .mobile-menu-icon
+        z-index: 2
         display: none
+        color: var(--font-color)
     nav.navbar>.inner
       display: flex
       justify-content: space-between
@@ -362,7 +365,6 @@ body#body
           font-size: 24px
           height: fit-content
           position: fixed
-          z-index: 1
           right: 10px
           top: 6px
           cursor: pointer
@@ -377,7 +379,8 @@ body#body
         nav.navbar.active>*
           transition: all .4s
           padding: 10px
-        nav.navbar
+        nav.navbar      
+          border-bottom: 3px solid var(--primary-color)
           top: 0px
           transition: all .4s
           // box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3)
