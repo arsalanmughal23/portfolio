@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowUpRight, 
   Terminal, 
@@ -240,7 +240,7 @@ export default function App() {
         </div>
 
         <div className="space-y-4">
-          {PROJECTS.map((project, idx) => (
+          {PROJECTS.map((project) => (
             <motion.div
               key={project.id}
               onMouseEnter={() => {
