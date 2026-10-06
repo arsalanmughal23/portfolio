@@ -7,6 +7,7 @@ export default defineConfig({
     react(),
     tailwindcss(), // 👈 Add Tailwind plugin
   ],
+  base: '/portfolio/', 
   server: {
     allowedHosts: ['.devtunnels.ms'], // 👈 This fixes your 502 Dev Tunnel error
   },
