@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowUpRight, 
-  Terminal, 
-  ExternalLink, 
-  Sparkles
+  Terminal as TerminalIcon, 
+  Sparkles,
+  ChevronRight,
+  Send
 } from 'lucide-react';
 import { GithubIcon as Github, LinkedinIcon as Linkedin } from './components/BrandIcons';
 
@@ -46,28 +47,32 @@ const CERTIFICATIONS = [
     title: "Google AI & Cloud Essentials",
     issuer: "Google Cloud",
     credentialId: "GC-AI-8921-X",
-    link: "https://cloud.google.com"
+    link: "https://cloud.google.com",
+    featured: true
   },
   {
     year: "2024",
     title: "Microsoft Technical Fundamentals",
     issuer: "Microsoft",
     credentialId: "MS-TECH-5542",
-    link: "https://microsoft.com"
+    link: "https://microsoft.com",
+    featured: false
   },
   {
     year: "2023",
     title: "Advanced Object-Oriented Programming & Systems",
     issuer: "Professional Certification",
     credentialId: "OOP-PHP-9021",
-    link: "#"
+    link: "#",
+    featured: false
   },
   {
     year: "2022",
     title: "GitHub Milestone & Ecosystem Achiever",
     issuer: "GitHub",
     credentialId: "GH-PR-QUICKDRAW",
-    link: "https://github.com"
+    link: "https://github.com",
+    featured: false
   }
 ];
 
@@ -76,18 +81,105 @@ const SKILLS = [
   "API Design", "Docker & Linux", "Git Workflows", "System Security", "Performance Optimization"
 ];
 
+// Interactive CLI Component for Task 4
+function InteractiveTerminal() {
+  const [input, setInput] = useState("");
+  const [history, setHistory] = useState<Array<{ command: string; output: string }>>([
+    { command: "init", output: "ArsalanOS v2.6.0 [Backend Core Active]. Type 'help' for available commands." }
+  ]);
+  const terminalEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    terminalEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [history]);
+
+  const handleCommand = (e: React.FormEvent) => {
+    e.preventDefault();
+    const cmd = input.trim().toLowerCase();
+    if (!cmd) return;
+
+    let output = "";
+    switch (cmd) {
+      case "help":
+        output = "Available commands: skills, projects, contact, clear, whoami";
+        break;
+      case "skills":
+        output = SKILLS.join(" | ");
+        break;
+      case "projects":
+        output = "1. Enterprise Core Backend\n2. Automated Data Sync\n3. Cloud Orchestrator";
+        break;
+      case "contact":
+        output = "Email: arsalan@dev.com | GitHub: github.com/arsalan";
+        break;
+      case "whoami":
+        output = "Arsalan - Backend Heavy Full-Stack Software Engineer specializing in scalable server architecture.";
+        break;
+      case "clear":
+        setHistory([]);
+        setInput("");
+        return;
+      default:
+        output = `command not found: ${cmd}. Type 'help' for options.`;
+    }
+
+    setHistory((prev) => [...prev, { command: input, output }]);
+    setInput("");
+  };
+
+  return (
+    <div className="bg-[#111111] text-[#F9F9F9] rounded-2xl border-2 border-[#111111] p-6 font-mono text-xs shadow-[8px_8px_0px_0px_#CCFF00] h-full flex flex-col justify-between">
+      <div>
+        <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-4">
+          <div className="flex gap-1.5">
+            <span className="w-3 h-3 rounded-full bg-red-500 inline-block"></span>
+            <span className="w-3 h-3 rounded-full bg-yellow-500 inline-block"></span>
+            <span className="w-3 h-3 rounded-full bg-green-500 inline-block"></span>
+          </div>
+          <span className="text-[#CCFF00] font-bold">bash - arsalan@core</span>
+        </div>
+        <div className="space-y-3 overflow-y-auto max-h-[220px] pr-2">
+          {history.map((h, i) => (
+            <div key={i} className="space-y-1">
+              <div className="text-white/50 flex items-center gap-1">
+                <span>$</span> <span className="text-[#CCFF00]">{h.command}</span>
+              </div>
+              <div className="text-white/90 whitespace-pre-line pl-4">{h.output}</div>
+            </div>
+          ))}
+          <div ref={terminalEndRef} />
+        </div>
+      </div>
+      <form onSubmit={handleCommand} className="mt-4 pt-4 border-t border-white/10 flex items-center gap-2">
+        <span className="text-[#CCFF00]">$</span>
+        <input 
+          type="text" 
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="type 'help'..."
+          className="bg-transparent outline-none w-full text-white font-mono text-xs placeholder:text-white/30"
+        />
+        <button type="submit" className="text-[#CCFF00] hover:opacity-80">
+          <Send className="w-4 h-4" />
+        </button>
+      </form>
+    </div>
+  );
+}
+
 export default function App() {
   const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
   const [isHovered, setIsHovered] = useState(false);
+  const [cursorText, setCursorText] = useState("");
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   const [activeProject, setActiveProject] = useState<any>(null);
   const [cursorImagePos, setCursorImagePos] = useState({ x: 0, y: 0 });
 
-  // Rotate roles in Hero
+  // Rotate roles in Hero smoothly
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentRoleIndex((prev) => (prev + 1) % ROLES.length);
-    }, 3000);
+    }, 3500);
     return () => clearInterval(interval);
   }, []);
 
@@ -106,42 +198,44 @@ export default function App() {
       
       {/* Custom Brutalist Follower Cursor */}
       <motion.div 
-        className="fixed top-0 left-0 w-4 h-4 bg-[#111111] rounded-full pointer-events-none z-50 hidden md:block"
+        className="fixed top-0 left-0 w-4 h-4 bg-[#111111] rounded-full pointer-events-none z-50 hidden md:flex items-center justify-center text-[8px] font-mono font-bold text-[#111111]"
         animate={{
-          x: mousePosition.x - 8,
-          y: mousePosition.y - 8,
-          scale: isHovered ? 2.5 : 1,
-          backgroundColor: isHovered ? "#CCFF00" : "#111111"
+          x: mousePosition.x - (cursorText ? 32 : 8),
+          y: mousePosition.y - (cursorText ? 32 : 8),
+          scale: cursorText ? 4 : isHovered ? 2.5 : 1,
+          backgroundColor: cursorText || isHovered ? "#CCFF00" : "#111111"
         }}
         transition={{ type: "spring", stiffness: 500, damping: 28 }}
-      />
+      >
+        {cursorText && <span className="scale-[0.35] tracking-tighter uppercase">{cursorText}</span>}
+      </motion.div>
 
       {/* Navigation Bar */}
       <header className="fixed top-0 left-0 w-full z-40 bg-[#F9F9F9]/80 backdrop-blur-md border-b border-[#111111]/10 px-6 md:px-12 py-5 flex items-center justify-between">
         <a 
           href="#" 
           className="font-black tracking-tighter text-xl uppercase flex items-center gap-2"
-          onMouseEnter={() => setIsHovered(true)}
+          onMouseEnter={() => { setIsHovered(true); setCursorText(""); }}
           onMouseLeave={() => setIsHovered(false)}
         >
           ARSALAN<span className="text-xs bg-[#CCFF00] px-1.5 py-0.5 border border-[#111111] rounded">ENG</span>
         </a>
         <nav className="hidden md:flex items-center gap-8 font-medium text-sm">
-          <a href="#projects" className="hover:opacity-60 transition" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>Works</a>
-          <a href="#credentials" className="hover:opacity-60 transition" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>Credentials</a>
-          <a href="#about" className="hover:opacity-60 transition" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>About</a>
+          <a href="#projects" className="hover:opacity-60 transition" onMouseEnter={() => { setIsHovered(true); setCursorText(""); }} onMouseLeave={() => setIsHovered(false)}>Works</a>
+          <a href="#credentials" className="hover:opacity-60 transition" onMouseEnter={() => { setIsHovered(true); setCursorText(""); }} onMouseLeave={() => setIsHovered(false)}>Credentials</a>
+          <a href="#about" className="hover:opacity-60 transition" onMouseEnter={() => { setIsHovered(true); setCursorText(""); }} onMouseLeave={() => setIsHovered(false)}>About</a>
         </nav>
         <a 
           href="#contact" 
           className="bg-[#111111] text-[#F9F9F9] text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-full hover:bg-[#CCFF00] hover:text-[#111111] border border-[#111111] transition duration-300"
-          onMouseEnter={() => setIsHovered(true)}
+          onMouseEnter={() => { setIsHovered(true); setCursorText(""); }}
           onMouseLeave={() => setIsHovered(false)}
         >
           Let's Talk
         </a>
       </header>
 
-      {/* Hero Section */}
+      {/* Hero Section (Task 1 Fixed: dynamic flexible height container) */}
       <section className="pt-40 pb-24 px-6 md:px-12 max-w-7xl mx-auto min-h-screen flex flex-col justify-center">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
           <div className="lg:col-span-10">
@@ -151,7 +245,7 @@ export default function App() {
               transition={{ duration: 0.8 }}
               className="inline-flex items-center gap-2 bg-[#CCFF00] border border-[#111111] px-3.5 py-1.5 rounded-full text-xs font-mono font-bold uppercase mb-6 shadow-[2px_2px_0px_0px_#111111]"
             >
-              <Terminal className="w-3.5 h-3.5" /> Backend Heavy Full-Stack Engineer
+              <TerminalIcon className="w-3.5 h-3.5" /> Backend Heavy Full-Stack Engineer
             </motion.div>
             
             <motion.h1 
@@ -161,15 +255,15 @@ export default function App() {
               className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight leading-[0.95] mb-8"
             >
               I BUILD <br />
-              <span className="relative inline-block overflow-hidden py-2">
+              <span className="relative block min-h-[1.2em] overflow-visible py-2">
                 <AnimatePresence mode="wait">
                   <motion.span
                     key={ROLES[currentRoleIndex]}
-                    initial={{ y: 50, opacity: 0 }}
+                    initial={{ y: 40, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: -50, opacity: 0 }}
-                    transition={{ duration: 0.4 }}
-                    className="block text-[#111111] underline decoration-[#CCFF00] decoration-wavy underline-offset-8"
+                    exit={{ y: -40, opacity: 0 }}
+                    transition={{ duration: 0.35, ease: "easeInOut" }}
+                    className="absolute left-0 top-2 whitespace-nowrap text-[#111111] underline decoration-[#CCFF00] decoration-wavy underline-offset-8"
                   >
                     {ROLES[currentRoleIndex]}
                   </motion.span>
@@ -181,9 +275,9 @@ export default function App() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-lg md:text-2xl text-[#111111]/70 max-w-2xl font-normal leading-relaxed"
+              className="text-lg md:text-2xl text-[#111111]/70 max-w-2xl font-normal leading-relaxed pt-12"
             >
-              Crafting robust server architecture, high-performance database models, and bulletproof backends with an editorial, minimalist approach.
+              I build backend systems that don't crash when 10,000 people log in at once. I specialize in Node.js, relational database optimization, and high-performance APIs.
             </motion.p>
           </div>
         </div>
@@ -193,7 +287,7 @@ export default function App() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-4 border-t border-[#111111]/10 pt-8"
+          className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 border-t border-[#111111]/10 pt-8"
         >
           <div>
             <span className="block text-3xl md:text-4xl font-black font-mono">03+</span>
@@ -246,10 +340,12 @@ export default function App() {
               onMouseEnter={() => {
                 setActiveProject(project);
                 setIsHovered(true);
+                setCursorText("VIEW");
               }}
               onMouseLeave={() => {
                 setActiveProject(null);
                 setIsHovered(false);
+                setCursorText("");
               }}
               className="group relative border border-[#111111]/15 bg-white/50 p-6 md:p-8 rounded-2xl hover:border-[#111111] hover:bg-[#CCFF00]/10 transition-all duration-300 cursor-pointer"
             >
@@ -306,7 +402,7 @@ export default function App() {
         </AnimatePresence>
       </section>
 
-      {/* Certifications (Minimalist Timeline) */}
+      {/* Certifications (Task 3 Fixed: Featured block + clean minimalist text list) */}
       <section id="credentials" className="py-32 px-6 md:px-12 max-w-7xl mx-auto border-t border-[#111111]/10">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
           <div>
@@ -316,34 +412,63 @@ export default function App() {
           <p className="text-sm font-mono text-[#111111]/70 mt-4 md:mt-0">Google, Microsoft & GitHub milestones</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {CERTIFICATIONS.map((cert, index) => (
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Featured Certification (Google Cloud) */}
+          {CERTIFICATIONS.filter(c => c.featured).map((cert, index) => (
             <div 
               key={index} 
-              className="p-8 rounded-2xl border border-[#111111]/15 bg-white/40 flex flex-col justify-between hover:border-[#111111] transition duration-300"
+              className="lg:col-span-6 p-8 md:p-10 rounded-3xl border-2 border-[#111111] bg-[#CCFF00]/20 flex flex-col justify-between shadow-[8px_8px_0px_0px_#111111]"
             >
               <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-mono font-bold bg-[#CCFF00] px-3 py-1 rounded-full border border-[#111111]">
-                    {cert.year}
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-xs font-mono font-bold bg-[#111111] text-[#CCFF00] px-3.5 py-1.5 rounded-full">
+                    {cert.year} • FEATURED
                   </span>
-                  <span className="text-xs font-mono text-[#111111]/60">{cert.issuer}</span>
+                  <span className="text-xs font-mono font-bold uppercase tracking-wider">{cert.issuer}</span>
                 </div>
-                <h3 className="text-xl md:text-2xl font-bold mb-2">{cert.title}</h3>
-                <p className="text-xs font-mono text-[#111111]/60 mb-6">ID: {cert.credentialId}</p>
+                <h3 className="text-2xl md:text-3xl font-black mb-3">{cert.title}</h3>
+                <p className="text-xs font-mono text-[#111111]/70 mb-8">Credential ID: {cert.credentialId}</p>
               </div>
               <a 
                 href={cert.link} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider hover:text-[#CCFF00] hover:bg-[#111111] px-4 py-2 rounded-lg border border-[#111111] w-fit transition-colors"
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
+                className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider bg-[#111111] text-[#F9F9F9] hover:bg-[#CCFF00] hover:text-[#111111] px-5 py-3 rounded-xl border border-[#111111] w-fit transition-colors group"
+                onMouseEnter={() => { setIsHovered(true); setCursorText("VERIFY"); }}
+                onMouseLeave={() => { setIsHovered(false); setCursorText(""); }}
               >
-                Verify Credential <ExternalLink className="w-3.5 h-3.5" />
+                Verify Credential <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </a>
             </div>
           ))}
+
+          {/* Remaining Certifications as Clean Minimalist Text List */}
+          <div className="lg:col-span-6 space-y-4">
+            {CERTIFICATIONS.filter(c => !c.featured).map((cert, index) => (
+              <div 
+                key={index}
+                className="group p-6 rounded-2xl border border-[#111111]/15 bg-white/50 flex items-center justify-between hover:border-[#111111] hover:bg-white transition duration-300"
+              >
+                <div>
+                  <div className="flex items-center gap-3 mb-1">
+                    <span className="text-xs font-mono font-bold bg-[#111111]/10 px-2 py-0.5 rounded">{cert.year}</span>
+                    <span className="text-xs font-mono text-[#111111]/60 uppercase">{cert.issuer}</span>
+                  </div>
+                  <h4 className="text-lg font-bold group-hover:text-black">{cert.title}</h4>
+                </div>
+                <a 
+                  href={cert.link} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full border border-[#111111]/20 flex items-center justify-center group-hover:bg-[#111111] group-hover:text-[#CCFF00] group-hover:border-[#111111] transition-colors shrink-0"
+                  onMouseEnter={() => { setIsHovered(true); setCursorText("GO"); }}
+                  onMouseLeave={() => { setIsHovered(false); setCursorText(""); }}
+                >
+                  <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                </a>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -351,24 +476,9 @@ export default function App() {
       <section id="about" className="py-32 px-6 md:px-12 max-w-7xl mx-auto border-t border-[#111111]/10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
-          {/* Left: Stylized High-Contrast Abstract Avatar / Frame */}
-          <div className="lg:col-span-5">
-            <div className="relative rounded-3xl overflow-hidden border-2 border-[#111111] bg-[#111111] text-[#F9F9F9] p-8 md:p-12 shadow-[8px_8px_0px_0px_#CCFF00]">
-              <div className="absolute top-4 right-4 flex gap-1.5">
-                <span className="w-3 h-3 rounded-full bg-red-500 inline-block"></span>
-                <span className="w-3 h-3 rounded-full bg-yellow-500 inline-block"></span>
-                <span className="w-3 h-3 rounded-full bg-green-500 inline-block"></span>
-              </div>
-              <span className="text-xs font-mono text-[#CCFF00] uppercase tracking-widest block mb-4">ARSALAN_PROFILE.LOG</span>
-              <h3 className="text-3xl font-black mb-6">BACKEND HEAVY & SYSTEM FOCUSED</h3>
-              <p className="text-sm font-mono text-[#F9F9F9]/80 leading-relaxed mb-6">
-                "Code is poetry when written with efficient data structures and bulletproof server security."
-              </p>
-              <div className="pt-6 border-t border-[#F9F9F9]/20 flex items-center justify-between text-xs font-mono">
-                <span>LOCATION: PAKISTAN</span>
-                <span className="text-[#CCFF00]">STATUS: AVAILABLE</span>
-              </div>
-            </div>
+          {/* Left: Interactive Terminal replacing the old cliché card (Task 4) */}
+          <div className="lg:col-span-5 h-[340px]">
+            <InteractiveTerminal />
           </div>
 
           {/* Right: Conversational Bio & Pull Quotes */}
@@ -378,10 +488,10 @@ export default function App() {
               Engineering systems that stand the test of concurrency and scale.
             </h2>
             <p className="text-base md:text-lg text-[#111111]/80 leading-relaxed font-normal">
-              I am Arsalan, a Backend Heavy Full-Stack Software Engineer. My passion lies deep within server-side architectures, database optimization, and scalable API design. I believe in clean code, rigorous documentation, and creating seamless digital experiences.
+              I am Arsalan, a Backend Heavy Full-Stack Software Engineer. I build backend systems that don't crash when 10,000 people log in at once. I specialize in Node.js, relational database optimization, and robust API design without unnecessary bloat.
             </p>
             <blockquote className="border-l-4 border-[#CCFF00] pl-6 py-2 my-6 font-mono italic text-lg font-bold text-[#111111]">
-              "Simplifying complex workflows through structured backend logic."
+              "Clean code and solid server architecture beat complex workarounds every single time."
             </blockquote>
           </div>
         </div>
@@ -406,7 +516,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* Footer (Massive Oversized Typography) */}
+      {/* Footer (Task 2 Fixed: Clean single rendering of massive typography and footer links) */}
       <footer id="contact" className="bg-[#111111] text-[#F9F9F9] pt-32 pb-16 px-6 md:px-12 border-t border-[#111111]">
         <div className="max-w-7xl mx-auto">
           <div className="mb-20">
