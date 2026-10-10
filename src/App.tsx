@@ -235,7 +235,7 @@ export default function App() {
         </a>
       </header>
 
-      {/* Hero Section (Task 1 Fixed: dynamic flexible height container) */}
+      {/* Hero Section: Responsive layout with dynamic text rotation and flexible container height */}
       <section className="pt-40 pb-24 px-6 md:px-12 max-w-7xl mx-auto min-h-screen flex flex-col justify-center">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
           <div className="lg:col-span-10">
@@ -252,18 +252,19 @@ export default function App() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight leading-[0.95] mb-8"
+              className="text-3xl sm:text-5xl md:text-6xl lg:text-8xl font-black tracking-tight leading-[0.95] mb-8 max-w-full"
             >
               I BUILD <br />
-              <span className="relative block min-h-[1.2em] overflow-visible py-2">
+              <span className="relative block min-h-[1.2em] py-2">
+                {/* Animated text rotation: Uses Framer Motion to swap roles with a slide-up/fade effect */}
                 <AnimatePresence mode="wait">
                   <motion.span
                     key={ROLES[currentRoleIndex]}
-                    initial={{ y: 40, opacity: 0 }}
+                    initial={{ y: 30, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: -40, opacity: 0 }}
+                    exit={{ y: -30, opacity: 0 }}
                     transition={{ duration: 0.35, ease: "easeInOut" }}
-                    className="absolute left-0 top-2 whitespace-nowrap text-[#111111] underline decoration-[#CCFF00] decoration-wavy underline-offset-8"
+                    className="absolute left-0 top-2 inline-block whitespace-nowrap max-w-full text-[#111111] underline decoration-[#CCFF00] decoration-wavy underline-offset-4 sm:underline-offset-8"
                   >
                     {ROLES[currentRoleIndex]}
                   </motion.span>
@@ -275,7 +276,7 @@ export default function App() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-lg md:text-2xl text-[#111111]/70 max-w-2xl font-normal leading-relaxed pt-12"
+              className="text-lg md:text-2xl text-[#111111]/70 max-w-2xl font-normal leading-relaxed pt-4"
             >
               I build backend systems that don't crash when 10,000 people log in at once. I specialize in Node.js, relational database optimization, and high-performance APIs.
             </motion.p>
