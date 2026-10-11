@@ -5,41 +5,13 @@ import {
   Terminal as TerminalIcon, 
   Sparkles,
   ChevronRight,
-  Send
+  Send,
+  X
 } from 'lucide-react';
 import { GithubIcon as Github, LinkedinIcon as Linkedin } from './components/BrandIcons';
+import { PROJECTS, type ProjectType } from "./data/projects";
 
 const ROLES = ["Scalable Systems", "Backend Architectures", "Secure APIs", "Robust Infrastructure"];
-
-const PROJECTS = [
-  {
-    id: "01",
-    title: "Enterprise Core Backend & Database Handler",
-    category: "Backend Engineering",
-    description: "Engineered high-throughput relational database schemas, customized middleware token validation, and ultra-low latency REST endpoints handling heavy concurrent transactions.",
-    tech: ["PHP OOP", "MySQL", "Redis", "REST API"],
-    link: "https://github.com",
-    previewImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: "02",
-    title: "Automated Data Sync & Telemetry Dashboard",
-    category: "Full-Stack System",
-    description: "Built asynchronous event-driven worker scripts with structured modular architecture, secure payload encryption, and clean responsive monitoring interfaces.",
-    tech: ["Node.js", "Python", "Tailwind CSS", "WebSockets"],
-    link: "https://github.com",
-    previewImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: "03",
-    title: "Cloud Microservices Orchestrator",
-    category: "Infrastructure",
-    description: "Designed containerized deployment pipelines, automated error recovery frameworks, and resilient server-side state synchronization mechanisms.",
-    tech: ["Docker", "Linux", "Git", "Bash Scripting"],
-    link: "https://github.com",
-    previewImage: "https://images.unsplash.com/photo-1618401471353-b98aedd04e11?auto=format&fit=crop&w=800&q=80"
-  }
-];
 
 const CERTIFICATIONS = [
   {
@@ -80,6 +52,16 @@ const SKILLS = [
   "Backend Architecture", "PHP OOP", "Node.js", "Python", "MySQL & Databases", 
   "API Design", "Docker & Linux", "Git Workflows", "System Security", "Performance Optimization"
 ];
+
+
+// XXXXXXXXXXXXXXXXXXXXX   utilities:begin   XXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function displayId(id: number): string {
+  return String(id).padStart(2, "0");
+}
+
+// XXXXXXXXXXXXXXXXXXXXX   utilities:end    XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 
 // Interactive CLI Component for Task 4
 function InteractiveTerminal() {
@@ -172,8 +154,8 @@ export default function App() {
   const [isHovered, setIsHovered] = useState(false);
   const [cursorText, setCursorText] = useState("");
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
-  const [activeProject, setActiveProject] = useState<any>(null);
-  const [cursorImagePos, setCursorImagePos] = useState({ x: 0, y: 0 });
+  const [activeProject, setActiveProject] = useState<ProjectType | null>(null);
+  const [isArchiveOpen, setIsArchiveOpen] = useState(false);
 
   // Rotate roles in Hero smoothly
   useEffect(() => {
@@ -183,32 +165,44 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = isArchiveOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [isArchiveOpen]);
+
+  useEffect(() => {
+    if (!isArchiveOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setIsArchiveOpen(false);
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isArchiveOpen]);
+
   // Track mouse for custom brutalist cursor & floating preview
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
-      setCursorImagePos({ x: e.clientX + 20, y: e.clientY - 100 });
     };
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
+
   return (
     <div className="bg-[#F9F9F9] text-[#111111] font-sans antialiased selection:bg-[#CCFF00] selection:text-[#111111] min-h-screen relative overflow-x-hidden">
       
       {/* Custom Brutalist Follower Cursor */}
-      <motion.div 
-        className="fixed top-0 left-0 w-4 h-4 bg-[#111111] rounded-full pointer-events-none z-50 hidden md:flex items-center justify-center text-[8px] font-mono font-bold text-[#111111]"
-        animate={{
-          x: mousePosition.x - (cursorText ? 32 : 8),
-          y: mousePosition.y - (cursorText ? 32 : 8),
-          scale: cursorText ? 4 : isHovered ? 2.5 : 1,
-          backgroundColor: cursorText || isHovered ? "#CCFF00" : "#111111"
-        }}
-        transition={{ type: "spring", stiffness: 500, damping: 28 }}
-      >
-        {cursorText && <span className="scale-[0.35] tracking-tighter uppercase">{cursorText}</span>}
-      </motion.div>
+      <CustomCursor
+        mousePosition={mousePosition}
+        cursorText={cursorText}
+        isHovered={isHovered}
+      />
+
+      {/* Floating Image Preview on Hover */}
+      <FloatingPreview
+        project={activeProject}
+        mousePosition={mousePosition}
+        hasCursorText={cursorText !== ""}
+      />
 
       {/* Navigation Bar */}
       <header className="fixed top-0 left-0 w-full z-40 bg-[#F9F9F9]/80 backdrop-blur-md border-b border-[#111111]/10 px-6 md:px-12 py-5 flex items-center justify-between">
@@ -324,7 +318,7 @@ export default function App() {
         </motion.div>
       </div>
 
-      {/* Projects Section (Interactive List with Floating Previews) */}
+      {/* Projects Section (Task 2 Fixed: Show first 3 + View Full Archive Button & Modal) */}
       <section id="projects" className="py-32 px-6 md:px-12 max-w-7xl mx-auto relative">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 border-b border-[#111111]/10 pb-6">
           <div>
@@ -335,70 +329,96 @@ export default function App() {
         </div>
 
         <div className="space-y-4">
-          {PROJECTS.map((project) => (
-            <motion.div
+          {PROJECTS.filter((project) => project.featured).slice(0, 3).map((project) => (
+            <ProjectCard
               key={project.id}
-              onMouseEnter={() => {
-                setActiveProject(project);
+              project={project}
+              variant="featured"
+              onHoverStart={(p) => {
+                setActiveProject(p);
                 setIsHovered(true);
                 setCursorText("VIEW");
               }}
-              onMouseLeave={() => {
+              onHoverEnd={() => {
                 setActiveProject(null);
                 setIsHovered(false);
                 setCursorText("");
               }}
-              className="group relative border border-[#111111]/15 bg-white/50 p-6 md:p-8 rounded-2xl hover:border-[#111111] hover:bg-[#CCFF00]/10 transition-all duration-300 cursor-pointer"
-            >
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <div className="flex items-start md:items-center gap-6">
-                  <span className="text-sm font-mono text-[#111111]/40 font-bold">{project.id}</span>
-                  <div>
-                    <span className="text-xs font-mono text-[#111111]/60 uppercase tracking-wider mb-1 block">{project.category}</span>
-                    <h3 className="text-2xl md:text-3xl font-bold group-hover:translate-x-2 transition-transform duration-300">
-                      {project.title}
-                    </h3>
-                    <p className="text-sm text-[#111111]/70 mt-2 max-w-xl">{project.description}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between md:justify-end gap-6 w-full md:w-auto">
-                  <div className="flex flex-wrap gap-1.5 max-w-[200px]">
-                    {project.tech.map((t, i) => (
-                      <span key={i} className="text-[10px] font-mono bg-[#111111]/5 border border-[#111111]/10 px-2 py-1 rounded">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                  <a 
-                    href={project.link} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="w-12 h-12 rounded-full border border-[#111111] flex items-center justify-center bg-[#111111] text-[#F9F9F9] group-hover:bg-[#CCFF00] group-hover:text-[#111111] transition-colors shrink-0"
-                  >
-                    <ArrowUpRight className="w-5 h-5" />
-                  </a>
-                </div>
-              </div>
-            </motion.div>
+            />
           ))}
         </div>
 
-        {/* Floating Image Preview on Hover */}
+        {/* View Full Archive Button */}
+        <div className="mt-12 text-center">
+          <button
+            onClick={() => {
+              setActiveProject(null);
+              setCursorText("");
+              setIsArchiveOpen(true)
+            }}
+            onMouseEnter={() => { setIsHovered(true); setCursorText("OPEN"); }}
+            onMouseLeave={() => { setIsHovered(false); setCursorText(""); setActiveProject(null); }}
+            className="inline-flex items-center gap-3 bg-[#111111] text-[#F9F9F9] font-mono text-xs font-bold uppercase tracking-widest px-8 py-4 rounded-full border border-[#111111] hover:bg-[#CCFF00] hover:text-[#111111] transition-all shadow-[4px_4px_0px_0px_#CCFF00]"
+          >
+            View Full Project Archive <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
+
+        {/* Full Archive Modal */}
         <AnimatePresence>
-          {activeProject && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-              animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              exit={{ opacity: 0, scale: 0.8, rotate: 5 }}
-              transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              className="fixed pointer-events-none z-30 hidden lg:block w-[320px] h-[200px] rounded-xl overflow-hidden border-2 border-[#111111] shadow-2xl bg-[#111111]"
-              style={{ top: cursorImagePos.y, left: cursorImagePos.x }}
+          {isArchiveOpen && (
+            <div 
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="archive-title"
+              onClick={() => setIsArchiveOpen(false)}
+              className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-black/60 backdrop-blur-md"
             >
-              <img src={activeProject.previewImage} alt={activeProject.title} className="w-full h-full object-cover opacity-90" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-transparent to-transparent opacity-80" />
-              <span className="absolute bottom-3 left-3 text-xs font-mono text-[#CCFF00] font-bold">SYSTEM PREVIEW</span>
-            </motion.div>
+              <motion.div
+                onClick={(e) => e.stopPropagation()}
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                className="bg-[#F9F9F9] border-2 border-[#111111] w-full max-w-5xl max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl"
+              >
+                {/* Modal Header */}
+                <div className="p-6 md:p-8 border-b border-[#111111]/10 flex items-center justify-between bg-white">
+                  <div>
+                    <span className="text-xs font-mono uppercase text-[#111111]/60 tracking-widest block">Complete Repository</span>
+                    <h3 id="archive-title" className="text-2xl md:text-3xl font-black">FULL PROJECT ARCHIVE</h3>
+                  </div>
+                  <button 
+                    onClick={() => setIsArchiveOpen(false)}
+                    className="w-10 h-10 rounded-full border border-[#111111] flex items-center justify-center bg-[#111111] text-[#F9F9F9] hover:bg-[#CCFF00] hover:text-[#111111] transition-colors"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                {/* Modal Scrollable Body */}
+                <div className="p-6 md:p-8 overflow-y-auto space-y-4">
+                  {PROJECTS.map((project) => (
+                    <ProjectCard
+                      key={project.id}
+                      project={project}
+                      variant="archive"
+                      onHoverStart={(p) => {
+                        setActiveProject(p);
+                        setIsHovered(true);
+                        setCursorText("VIEW");
+                      }}
+                      onHoverEnd={() => {
+                        setActiveProject(null);
+                        setIsHovered(false);
+                        setCursorText("");
+                      }}
+                    />
+                    // <ProjectCard key={project.id} project={project} variant="archive" />
+                  ))}
+                </div>
+              </motion.div>
+            </div>
           )}
         </AnimatePresence>
       </section>
@@ -552,5 +572,188 @@ export default function App() {
       </footer>
 
     </div>
+  );
+}
+
+
+function ProjectCard({
+  project,
+  variant = "archive",
+  onHoverStart,
+  onHoverEnd,
+}: {
+  project: ProjectType;
+  variant?: "featured" | "archive";
+  onHoverStart?: (p: ProjectType) => void;
+  onHoverEnd?: () => void;
+}) {
+  const isFeatured = variant === "featured";
+
+  const handleEnter = () => {
+    onHoverStart?.(project);
+  };
+  const handleLeave = () => {
+    onHoverEnd?.();
+  };
+
+  return (
+    <div
+      onMouseEnter={handleEnter}
+      onMouseLeave={handleLeave}
+      className={
+        isFeatured
+          ? "group relative border border-[#111111]/15 bg-white/50 p-6 md:p-8 rounded-2xl hover:border-[#111111] hover:bg-[#CCFF00]/10 transition-all duration-300 cursor-pointer"
+          : "border border-[#111111]/15 bg-white p-6 rounded-2xl hover:border-[#111111] transition-colors cursor-pointer"
+      }
+    >
+      <div
+        className={
+          isFeatured
+            ? "flex flex-col md:flex-row md:items-center justify-between gap-6"
+            : "flex flex-col md:flex-row md:items-center justify-between gap-4"
+        }
+      >
+        <div className={isFeatured ? "flex items-start md:items-center gap-6" : "flex items-start md:items-center gap-4"}>
+          <span
+            className={
+              isFeatured
+                ? "text-sm font-mono text-[#111111]/40 font-bold"
+                : "text-xs font-mono text-[#111111]/40 font-bold"
+            }
+          >
+            { displayId(project.id) }
+          </span>
+          <div>
+            <span
+              className={
+                isFeatured
+                  ? "text-xs font-mono text-[#111111]/60 uppercase tracking-wider mb-1 block"
+                  : "text-[10px] font-mono text-[#111111]/60 uppercase tracking-wider block"
+              }
+            >
+              {project.category}
+            </span>
+            <h3
+              className={
+                isFeatured
+                  ? "text-2xl md:text-3xl font-bold group-hover:translate-x-2 transition-transform duration-300"
+                  : "text-lg font-bold"
+              }
+            >
+              {project.title}
+            </h3>
+            <p className={isFeatured ? "text-sm text-[#111111]/70 mt-2 max-w-xl" : "text-xs text-[#111111]/70 mt-1"}>
+              {project.description}
+            </p>
+          </div>
+        </div>
+
+        <div
+          className={
+            isFeatured
+              ? "flex items-center justify-between md:justify-end gap-6 w-full md:w-auto"
+              : "flex items-center justify-between md:justify-end gap-4"
+          }
+        >
+          <div className={isFeatured ? "flex flex-wrap gap-1.5 max-w-[200px]" : "flex flex-wrap gap-1"}>
+            {project.tech.map((t, i) => (
+              <span
+                key={i}
+                className={
+                  isFeatured
+                    ? "text-[10px] font-mono bg-[#111111]/5 border border-[#111111]/10 px-2 py-1 rounded"
+                    : "text-[9px] font-mono bg-[#111111]/5 px-2 py-0.5 rounded border border-[#111111]/10"
+                }
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+          <a
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={
+              isFeatured
+                ? "w-12 h-12 rounded-full border border-[#111111] flex items-center justify-center bg-[#111111] text-[#F9F9F9] group-hover:bg-[#CCFF00] group-hover:text-[#111111] transition-colors shrink-0"
+                : "w-10 h-10 rounded-full border border-[#111111] flex items-center justify-center bg-[#111111] text-[#F9F9F9] hover:bg-[#CCFF00] hover:text-[#111111] transition-colors shrink-0"
+            }
+          >
+            <ArrowUpRight className={isFeatured ? "w-5 h-5" : "w-4 h-4"} />
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+function CustomCursor({
+  mousePosition,
+  cursorText,
+  isHovered,
+}: {
+  mousePosition: { x: number; y: number };
+  cursorText: string;
+  isHovered: boolean;
+}) {
+  const hasText = cursorText !== "";
+
+  return (
+    <motion.div
+      className="fixed top-0 left-0 w-4 h-4 bg-[#111111] rounded-full pointer-events-none z-[70] hidden md:flex items-center justify-center text-[8px] font-mono font-bold text-[#111111]"
+      animate={{
+        x: mousePosition.x - (hasText ? 32 : 8),
+        y: mousePosition.y - (hasText ? 32 : 8),
+        scale: hasText ? 4 : isHovered ? 2.5 : 1,
+        backgroundColor: hasText || isHovered ? "#CCFF00" : "#111111",
+      }}
+      transition={{ type: "spring", stiffness: 500, damping: 28 }}
+    >
+      {hasText && (
+        <span className="scale-[0.35] tracking-tighter uppercase">{cursorText}</span>
+      )}
+    </motion.div>
+  );
+}
+
+function FloatingPreview({
+  project,
+  mousePosition,
+  hasCursorText,
+}: {
+  project: ProjectType | null;
+  mousePosition: { x: number; y: number };
+  hasCursorText: boolean;
+}) {
+
+  return (
+    <AnimatePresence>
+      {project && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+          animate={{
+            opacity: 1,
+            scale: 1,
+            rotate: 0,
+            x: mousePosition.x + (hasCursorText ? 15 : 8),
+            y: mousePosition.y - (hasCursorText ? 100 : 8),
+          }}
+          exit={{ opacity: 0, scale: 0.8, rotate: 5 }}
+          transition={{ type: "spring", stiffness: 300, damping: 25 }}
+          className="fixed top-0 left-0 pointer-events-none z-[60] hidden lg:block w-[320px] h-[200px] rounded-xl overflow-hidden border-2 border-[#111111] shadow-2xl bg-[#111111]"
+        >
+          <img
+            src={project.previewImage}
+            alt={project.title}
+            className="w-full h-full object-cover opacity-90"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-transparent to-transparent opacity-80" />
+          <span className="absolute bottom-3 left-3 text-xs font-mono text-[#CCFF00] font-bold">
+            SYSTEM PREVIEW
+          </span>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
