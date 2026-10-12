@@ -13,6 +13,7 @@ import { displayId } from '@/lib/utils';
 
 import { GithubIcon as Github, LinkedinIcon as Linkedin } from './components/BrandIcons';
 import { Modal } from '@/components/Modal';
+import { ViewMoreButton } from './components/ViewMoreButton';
 
 const ROLES = ["Scalable Systems", "Backend Architectures", "Secure APIs", "Robust Infrastructure"];
 
@@ -332,18 +333,23 @@ export default function App() {
 
         {/* View Full Archive Button */}
         <div className="mt-12 text-center">
-          <button
+          <ViewMoreButton
+            label="View Full Project Archive"
             onClick={() => {
               setActiveProject(null);
               setCursorText("");
-              setIsArchiveOpen(true)
+              setIsArchiveOpen(true);
             }}
-            onMouseEnter={() => { setIsHovered(true); setCursorText("OPEN"); }}
-            onMouseLeave={() => { setIsHovered(false); setCursorText(""); setActiveProject(null); }}
-            className="inline-flex items-center gap-3 bg-[#111111] text-[#F9F9F9] font-mono text-xs font-bold uppercase tracking-widest px-8 py-4 rounded-full border border-[#111111] hover:bg-[#CCFF00] hover:text-[#111111] transition-all shadow-[4px_4px_0px_0px_#CCFF00]"
-          >
-            View Full Project Archive <CaretRightIcon className="w-4 h-4" />
-          </button>
+            onMouseEnter={() => {
+              setIsHovered(true);
+              setCursorText("OPEN");
+            }}
+            onMouseLeave={() => {
+              setIsHovered(false);
+              setCursorText("");
+              setActiveProject(null);
+            }}
+          />
         </div>
 
         {/* Full Archive Modal */}
@@ -681,7 +687,7 @@ function FloatingPreview({
 
   return (
     <AnimatePresence>
-      {project && (
+      {project && project?.previewImage && (
         <motion.div
           initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
           animate={{
