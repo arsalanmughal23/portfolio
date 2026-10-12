@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { 
-  ArrowUpRight, 
-  Terminal as TerminalIcon, 
-  Sparkles,
-  ChevronRight,
-  Send,
-} from 'lucide-react';
+  ArrowUpRightIcon, 
+  TerminalIcon, 
+  SparkleIcon,
+  CaretRightIcon,
+  PaperPlaneTiltIcon,
+} from '@phosphor-icons/react';
 
 import { PROJECTS, type ProjectType } from "./data/projects";
 import { displayId } from '@/lib/utils';
@@ -136,7 +136,7 @@ function InteractiveTerminal() {
           className="bg-transparent outline-none w-full text-white font-mono text-xs placeholder:text-white/30"
         />
         <button type="submit" className="text-[#CCFF00] hover:opacity-80">
-          <Send className="w-4 h-4" />
+          <PaperPlaneTiltIcon className="w-4 h-4" />
         </button>
       </form>
     </div>
@@ -342,7 +342,7 @@ export default function App() {
             onMouseLeave={() => { setIsHovered(false); setCursorText(""); setActiveProject(null); }}
             className="inline-flex items-center gap-3 bg-[#111111] text-[#F9F9F9] font-mono text-xs font-bold uppercase tracking-widest px-8 py-4 rounded-full border border-[#111111] hover:bg-[#CCFF00] hover:text-[#111111] transition-all shadow-[4px_4px_0px_0px_#CCFF00]"
           >
-            View Full Project Archive <ChevronRight className="w-4 h-4" />
+            View Full Project Archive <CaretRightIcon className="w-4 h-4" />
           </button>
         </div>
 
@@ -410,7 +410,7 @@ export default function App() {
                 onMouseEnter={() => { setIsHovered(true); setCursorText("VERIFY"); }}
                 onMouseLeave={() => { setIsHovered(false); setCursorText(""); }}
               >
-                Verify Credential <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                Verify Credential <CaretRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </a>
             </div>
           ))}
@@ -437,7 +437,7 @@ export default function App() {
                   onMouseEnter={() => { setIsHovered(true); setCursorText("GO"); }}
                   onMouseLeave={() => { setIsHovered(false); setCursorText(""); }}
                 >
-                  <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                  <CaretRightIcon className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                 </a>
               </div>
             ))}
@@ -483,7 +483,7 @@ export default function App() {
               An upcoming intelligent module where recruiters can paste any Job Description, and my embedded AI agent will instantly draft customized cover letters and tailored resume summaries based on my live backend portfolio records.
             </p>
             <div className="inline-flex items-center gap-2 text-xs font-mono text-[#CCFF00] bg-white/10 px-4 py-2 rounded-lg border border-white/20">
-              <Sparkles className="w-4 h-4" /> In Active Development
+              <SparkleIcon className="w-4 h-4" /> In Active Development
             </div>
           </div>
         </div>
@@ -631,7 +631,7 @@ function ProjectCard({
                 : "w-10 h-10 rounded-full border border-[#111111] flex items-center justify-center bg-[#111111] text-[#F9F9F9] hover:bg-[#CCFF00] hover:text-[#111111] transition-colors shrink-0"
             }
           >
-            <ArrowUpRight className={isFeatured ? "w-5 h-5" : "w-4 h-4"} />
+            <ArrowUpRightIcon className={isFeatured ? "w-5 h-5" : "w-4 h-4"} />
           </a>
         </div>
       </div>

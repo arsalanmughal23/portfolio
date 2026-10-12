@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
-import { AnimatePresence, motion } from "framer-motion";
-import { X } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+import { XIcon } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 
 /* ---------- width map ---------- */
@@ -110,7 +110,7 @@ export function Modal({
                     className="w-10 h-10 rounded-full border border-[#111111] flex items-center justify-center bg-[#111111] text-[#F9F9F9] hover:bg-[#CCFF00] hover:text-[#111111] transition-colors"
                     aria-label="Close"
                   >
-                    <X className="w-5 h-5" />
+                    <XIcon className="w-5 h-5" />
                   </DialogPrimitive.Close>
                 </div>
 
