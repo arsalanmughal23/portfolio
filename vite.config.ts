@@ -1,14 +1,20 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite' // 👈 Import Tailwind
+import tailwindcss from '@tailwindcss/vite'
+import path from 'path'
 
 export default defineConfig({
   plugins: [
     react(),
-    tailwindcss(), // 👈 Add Tailwind plugin
+    tailwindcss(),
   ],
+  resolve: {
+    alias: {
+      "@": path.resolve(import.meta.dirname, "./src"),
+    },
+  },
   base: '/portfolio/', 
   server: {
-    allowedHosts: ['.devtunnels.ms'], // 👈 This fixes your 502 Dev Tunnel error
+    allowedHosts: ['.devtunnels.ms'],
   },
 })

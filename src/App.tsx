@@ -6,10 +6,13 @@ import {
   Sparkles,
   ChevronRight,
   Send,
-  X
 } from 'lucide-react';
-import { GithubIcon as Github, LinkedinIcon as Linkedin } from './components/BrandIcons';
+
 import { PROJECTS, type ProjectType } from "./data/projects";
+import { displayId } from '@/lib/utils';
+
+import { GithubIcon as Github, LinkedinIcon as Linkedin } from './components/BrandIcons';
+import { Modal } from '@/components/Modal';
 
 const ROLES = ["Scalable Systems", "Backend Architectures", "Secure APIs", "Robust Infrastructure"];
 
@@ -52,15 +55,6 @@ const SKILLS = [
   "Backend Architecture", "PHP OOP", "Node.js", "Python", "MySQL & Databases", 
   "API Design", "Docker & Linux", "Git Workflows", "System Security", "Performance Optimization"
 ];
-
-
-// XXXXXXXXXXXXXXXXXXXXX   utilities:begin   XXXXXXXXXXXXXXXXXXXXXXXXXX
-
-function displayId(id: number): string {
-  return String(id).padStart(2, "0");
-}
-
-// XXXXXXXXXXXXXXXXXXXXX   utilities:end    XXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
 // Interactive CLI Component for Task 4
@@ -164,18 +158,6 @@ export default function App() {
     }, 3500);
     return () => clearInterval(interval);
   }, []);
-
-  useEffect(() => {
-    document.body.style.overflow = isArchiveOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [isArchiveOpen]);
-
-  useEffect(() => {
-    if (!isArchiveOpen) return;
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setIsArchiveOpen(false);
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [isArchiveOpen]);
 
   // Track mouse for custom brutalist cursor & floating preview
   useEffect(() => {
@@ -365,62 +347,32 @@ export default function App() {
         </div>
 
         {/* Full Archive Modal */}
-        <AnimatePresence>
-          {isArchiveOpen && (
-            <div 
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="archive-title"
-              onClick={() => setIsArchiveOpen(false)}
-              className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-black/60 backdrop-blur-md"
-            >
-              <motion.div
-                onClick={(e) => e.stopPropagation()}
-                initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                className="bg-[#F9F9F9] border-2 border-[#111111] w-full max-w-5xl max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl"
-              >
-                {/* Modal Header */}
-                <div className="p-6 md:p-8 border-b border-[#111111]/10 flex items-center justify-between bg-white">
-                  <div>
-                    <span className="text-xs font-mono uppercase text-[#111111]/60 tracking-widest block">Complete Repository</span>
-                    <h3 id="archive-title" className="text-2xl md:text-3xl font-black">FULL PROJECT ARCHIVE</h3>
-                  </div>
-                  <button 
-                    onClick={() => setIsArchiveOpen(false)}
-                    className="w-10 h-10 rounded-full border border-[#111111] flex items-center justify-center bg-[#111111] text-[#F9F9F9] hover:bg-[#CCFF00] hover:text-[#111111] transition-colors"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
-                </div>
+        <Modal
+          isOpen={isArchiveOpen}
+          onOpenChange={setIsArchiveOpen}
+          title="FULL PROJECT ARCHIVE"
+          subtitle="Complete Repository"
+          maxWidth="lg"
+        >
+          {PROJECTS.map((project) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              variant="archive"
+              onHoverStart={(p) => {
+                setActiveProject(p);
+                setIsHovered(true);
+                setCursorText("VIEW");
+              }}
+              onHoverEnd={() => {
+                setActiveProject(null);
+                setIsHovered(false);
+                setCursorText("");
+              }}
+            />
+          ))}
+        </Modal>
 
-                {/* Modal Scrollable Body */}
-                <div className="p-6 md:p-8 overflow-y-auto space-y-4">
-                  {PROJECTS.map((project) => (
-                    <ProjectCard
-                      key={project.id}
-                      project={project}
-                      variant="archive"
-                      onHoverStart={(p) => {
-                        setActiveProject(p);
-                        setIsHovered(true);
-                        setCursorText("VIEW");
-                      }}
-                      onHoverEnd={() => {
-                        setActiveProject(null);
-                        setIsHovered(false);
-                        setCursorText("");
-                      }}
-                    />
-                    // <ProjectCard key={project.id} project={project} variant="archive" />
-                  ))}
-                </div>
-              </motion.div>
-            </div>
-          )}
-        </AnimatePresence>
       </section>
 
       {/* Certifications (Task 3 Fixed: Featured block + clean minimalist text list) */}
