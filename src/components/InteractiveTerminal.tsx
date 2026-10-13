@@ -1,4 +1,4 @@
-import { SKILLS } from "@/data/skills";
+import { SKILLS } from "@/data";
 import { PaperPlaneTiltIcon } from "@phosphor-icons/react";
 import { useEffect, useRef, useState } from "react";
 

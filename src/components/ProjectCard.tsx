@@ -1,4 +1,4 @@
-import type { ProjectType } from "@/data/projects";
+import type { ProjectType } from "@/data/types";
 import { displayId } from "@/lib/utils";
 import { ArrowUpRightIcon } from "@phosphor-icons/react";
 

@@ -2,11 +2,6 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { TerminalIcon, SparkleIcon } from "@phosphor-icons/react";
 
-import { ROLES } from "@/data/roles";
-import { SKILLS } from "@/data/skills";
-import { PROJECTS } from "@/data/projects";
-import { CERTIFICATES } from "@/data/certificates";
-
 import { GithubIcon as Github, LinkedinIcon as Linkedin } from "@/components/BrandIcons";
 
 import CustomCursor from "@/components/CustomCursor";
@@ -16,6 +11,7 @@ import { MODAL_REGISTRY, type ModalKey } from "@/components/modal/registry";
 import { Modal } from "@/components/modal/Modal";
 import { ViewMoreButton } from "@/components/ViewMoreButton";
 
+import { ROLES, SKILLS, PROJECTS, CERTIFICATES } from "@/data";
 import ProjectCard from "@/components/ProjectCard";
 import CertificateCard from "@/components/CertificateCard";
 import InteractiveTerminal from "@/components/InteractiveTerminal";

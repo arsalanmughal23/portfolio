@@ -1,5 +1,4 @@
-import type { CertificateType } from "@/data/certificates";
-import type { ProjectType } from "@/data/projects";
+import type { CertificateType, ProjectType } from "@/data/types";
 import { motion, AnimatePresence } from "motion/react";
 
 export type PreviewItemType = ProjectType | CertificateType;

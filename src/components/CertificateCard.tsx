@@ -1,4 +1,4 @@
-import type { CertificateType } from "@/data/certificates";
+import type { CertificateType } from "@/data/types";
 import { ArrowSquareOutIcon } from "@phosphor-icons/react";
 import { motion } from "motion/react";
 

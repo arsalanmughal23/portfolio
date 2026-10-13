@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
-import { PROJECTS } from "@/data/projects";
-import { CERTIFICATES } from "@/data/certificates";
+import { CERTIFICATES, PROJECTS } from "@/data";
 import ProjectCard from "@/components/ProjectCard";
 import CertificateCard from "@/components/CertificateCard";
 import type { ModalSizeType } from "@/components/modal/Modal";
