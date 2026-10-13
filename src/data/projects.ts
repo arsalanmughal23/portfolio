@@ -18,7 +18,7 @@ export const PROJECTS = [
     tech: ["PHP OOP", "MySQL", "Redis", "REST API"],
     link: "https://github.com",
     previewImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80",
-    featured: true
+    featured: true,
   },
   {
     id: 2,
@@ -28,7 +28,7 @@ export const PROJECTS = [
     tech: ["Node.js", "Python", "Tailwind CSS", "WebSockets"],
     link: "https://github.com",
     previewImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
-    featured: true
+    featured: true,
   },
   {
     id: 3,
@@ -38,7 +38,7 @@ export const PROJECTS = [
     tech: ["Docker", "Linux", "Git", "Bash Scripting"],
     link: "https://github.com",
     previewImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80",
-    featured: true
+    featured: true,
   },
   {
     id: 4,
@@ -48,7 +48,7 @@ export const PROJECTS = [
     tech: ["Node.js", "PostgreSQL", "Docker", "Redis"],
     link: "https://github.com",
     previewImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
-    featured: false
+    featured: false,
   },
   {
     id: 5,
@@ -58,6 +58,6 @@ export const PROJECTS = [
     tech: ["Python", "ClickHouse", "WebSockets", "Kafka"],
     link: "https://github.com",
     previewImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80",
-    featured: false
-  }
+    featured: false,
+  },
 ] satisfies Array<ProjectType>;
