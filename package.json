@@ -11,7 +11,13 @@
     "lint:fix": "eslint . --fix",
     "format:fix": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
     "prepare": "husky",
-    "test": "echo \"No tests configured yet\" && exit 0"
+    "test": "echo \"No tests configured yet\" && exit 0",
+
+    "deploy": "gh workflow run \"Deploy to GitHub Pages\" -f branch=main",
+    "deploy:staging": "gh workflow run \"Deploy to GitHub Pages\" -f branch=staging",
+    "deploy:watch": "gh run watch",
+    "deploy:runs": "gh run list --workflow=deploy.yml",
+    "deploy:logs": "gh run view --log-failed"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
