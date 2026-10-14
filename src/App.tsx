@@ -390,7 +390,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* Future AI Assistant Teaser Section */}
+      {/* AI Assistant Teaser Section */}
       <section className="py-20 px-6 md:px-12 max-w-7xl mx-auto">
         <div className="border border-[#111111] bg-[#111111] text-[#F9F9F9] rounded-3xl p-8 md:p-16 relative overflow-hidden shadow-[12px_12px_0px_0px_#CCFF00]">
           <div className="absolute top-0 right-0 w-96 h-96 bg-[#CCFF00]/10 rounded-full blur-[100px] pointer-events-none"></div>
@@ -399,13 +399,24 @@ export default function App() {
               Coming Soon
             </span>
             <h3 className="text-3xl md:text-5xl font-black mb-4 tracking-tight">
-              Personal AI Job Assistant
+              AI Assistant
             </h3>
-            <p className="text-sm md:text-base text-[#F9F9F9]/70 font-mono mb-8 leading-relaxed">
-              An upcoming intelligent module where recruiters can paste any Job Description, and my
-              embedded AI agent will instantly draft customized cover letters and tailored resume
-              summaries based on my live backend portfolio records.
+            <p className="text-sm md:text-base text-[#F9F9F9]/80 font-mono mb-6 leading-relaxed">
+              Your 24/7 point of contact — ask questions, get quotations, check my
+              availability, or book a meeting. Covers Laravel, PHP, Node.js, Vue, React,
+              and full-stack systems.
             </p>
+
+            {/* Chat Preview */}
+            <div className="p-4 bg-white/5 rounded-xl border border-white/10 font-mono text-xs space-y-2 max-w-md mb-6">
+              <div className="text-[#CCFF00]">
+                You → "I want a website with AI automation built in."
+              </div>
+              <div className="text-white/70">
+                Assistant → "Great — what are you building, and where should the AI fit in?"
+              </div>
+            </div>
+
             <div className="inline-flex items-center gap-2 text-xs font-mono text-[#CCFF00] bg-white/10 px-4 py-2 rounded-lg border border-white/20">
               <SparkleIcon className="w-4 h-4" /> In Active Development
             </div>
