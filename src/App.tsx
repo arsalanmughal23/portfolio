@@ -15,6 +15,7 @@ import { ROLES, SKILLS, PROJECTS, CERTIFICATES } from "@/data";
 import ProjectCard from "@/components/ProjectCard";
 import CertificateCard from "@/components/CertificateCard";
 import InteractiveTerminal from "@/components/InteractiveTerminal";
+import ContactSection from "@/components/ContactSection";
 
 export default function App() {
   const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
@@ -398,13 +399,10 @@ export default function App() {
             <span className="text-xs font-mono bg-[#CCFF00] text-[#111111] px-3 py-1 rounded-full font-bold uppercase inline-block mb-4">
               Coming Soon
             </span>
-            <h3 className="text-3xl md:text-5xl font-black mb-4 tracking-tight">
-              AI Assistant
-            </h3>
+            <h3 className="text-3xl md:text-5xl font-black mb-4 tracking-tight">AI Assistant</h3>
             <p className="text-sm md:text-base text-[#F9F9F9]/80 font-mono mb-6 leading-relaxed">
-              Your 24/7 point of contact — ask questions, get quotations, check my
-              availability, or book a meeting. Covers Laravel, PHP, Node.js, Vue, React,
-              and full-stack systems.
+              Your 24/7 point of contact — ask questions, get quotations, check my availability, or
+              book a meeting. Covers Laravel, PHP, Node.js, Vue, React, and full-stack systems.
             </p>
 
             {/* Chat Preview */}
@@ -423,6 +421,8 @@ export default function App() {
           </div>
         </div>
       </section>
+
+      <ContactSection />
 
       {/* Footer (Task 2 Fixed: Clean single rendering of massive typography and footer links) */}
       <footer
