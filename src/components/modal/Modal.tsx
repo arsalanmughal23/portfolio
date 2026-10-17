@@ -11,22 +11,23 @@ const MAX_WIDTH_CLASSES = {
   lg: "max-w-4xl",
   xl: "max-w-5xl",
   "2xl": "max-w-6xl",
+  "3xl": "max-w-7xl",
 } as const;
-type ModalSize = keyof typeof MAX_WIDTH_CLASSES;
+export type ModalSizeType = keyof typeof MAX_WIDTH_CLASSES;
 
 type ModalProps = {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   title: string;
-  subtitle?: string;
+  subtitle?: string | null;
   children: React.ReactNode;
-  maxWidth?: ModalSize;
+  maxWidth?: ModalSizeType;
 };
 
 export function Modal({
   isOpen,
   onOpenChange,
-  title,
+  title = "Modal Box",
   subtitle,
   children,
   maxWidth = "lg",
@@ -103,6 +104,10 @@ export function Modal({
                     <DialogPrimitive.Title className="text-2xl md:text-3xl font-black">
                       {title}
                     </DialogPrimitive.Title>
+
+                    <DialogPrimitive.Description className="sr-only">
+                      {subtitle ?? title}
+                    </DialogPrimitive.Description>
                   </div>
 
                   {/* Single, custom close button */}
@@ -115,9 +120,7 @@ export function Modal({
                 </div>
 
                 {/* ---------- Body (only scrollable region) ---------- */}
-                <div className="flex-1 overflow-y-auto p-6 md:p-8 space-y-4">
-                  {children}
-                </div>
+                <div className="flex-1 overflow-y-auto p-6 md:p-8 space-y-4">{children}</div>
               </DialogPrimitive.Popup>
             </div>
           </DialogPrimitive.Portal>
