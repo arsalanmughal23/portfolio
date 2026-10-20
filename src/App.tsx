@@ -16,6 +16,7 @@ import ProjectCard from "@/components/ProjectCard";
 import CertificateCard from "@/components/CertificateCard";
 import InteractiveTerminal from "@/components/InteractiveTerminal";
 import ContactSection from "@/components/ContactSection";
+import Logo from "@/components/Logo";
 
 export default function App() {
   const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
@@ -81,20 +82,8 @@ export default function App() {
 
       {/* Navigation Bar */}
       <header className="fixed top-0 left-0 w-full z-40 bg-[#F9F9F9]/80 backdrop-blur-md border-b border-[#111111]/10 px-6 md:px-12 py-5 flex items-center justify-between">
-        <a
-          href="#"
-          className="font-black tracking-tighter text-xl uppercase flex items-center gap-2"
-          onMouseEnter={() => {
-            setIsHovered(true);
-            setCursorText("");
-          }}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          ARSALAN
-          <span className="text-xs bg-[#CCFF00] px-1.5 py-0.5 border border-[#111111] rounded">
-            ENG
-          </span>
-        </a>
+        <Logo />
+
         <nav className="hidden md:flex items-center gap-8 font-medium text-sm">
           <a
             href="#projects"
