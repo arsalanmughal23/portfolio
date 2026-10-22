@@ -116,13 +116,15 @@ export default function ContactSection() {
                 AVAILABILITY: OPEN FOR LEADS
               </span>
               <h3 className="text-2xl font-bold text-[#111111]">
-                Engineering Systems & High-Load Architecture
+                Let's discuss your next project.
               </h3>
             </div>
 
             <p className="text-sm font-mono text-[#111111]/70 leading-relaxed">
-              I collaborate with companies, agencies, and founders to architect high-performance
-              backend systems, intelligent workflow automation, and scalable web applications.
+              I collaborate with founders, agencies, and product teams to build scalable web
+              applications. Whether you need a complex Laravel backend, a modern React frontend, or
+              a full-stack Node.js solution, let's discuss how I can help you ship your next
+              project.
             </p>
 
             <div className="space-y-3 font-mono text-xs pt-4 border-t border-[#111111]/10">
@@ -180,7 +182,8 @@ export default function ContactSection() {
                 <CheckCircleIcon className="w-14 h-14 mx-auto text-[#111111]" />
                 <h3 className="text-3xl font-black uppercase">Message Dispatched!</h3>
                 <p className="text-sm font-mono text-[#111111]/80 max-w-md mx-auto">
-                  Thanks for reaching out! Your inquiry has been sent and I'll get back to you shortly.
+                  Thanks for reaching out! Your inquiry has been sent and I'll get back to you
+                  shortly.
                 </p>
                 <button
                   onClick={() => setStatus("idle")}

@@ -1,6 +1,3 @@
-type RoleType = string;
-type SkillType = string;
-
 type ProjectType = {
   id: number;
   title: string;
@@ -23,4 +20,4 @@ type CertificateType = {
   previewImage?: string;
 };
 
-export type { RoleType, SkillType, ProjectType, CertificateType };
+export type { ProjectType, CertificateType };

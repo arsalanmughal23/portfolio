@@ -47,7 +47,10 @@ export default function InteractiveTerminal() {
         break;
       case "whoami":
         output =
-          "Arsalan - Backend Heavy Full-Stack Software Engineer specializing in scalable server architecture.";
+          "Arsalan - Full-Stack Engineer (Backend Heavy).\n" +
+          "Specialized in PHP (Laravel) & database architecture.\n" +
+          "Frontend: React & Vue.\n" +
+          "Node.js Ecosystem: Express, NestJS, AdonisJS, Next.js & Nuxt.js";
         break;
       case "clear":
         setHistory([]);

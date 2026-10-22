@@ -1,24 +1,23 @@
-import type { CertificateType, ProjectType, RoleType, SkillType } from "@/data/types";
+import type { CertificateType, ProjectType } from "@/data/types";
 
 const ROLES = [
   "Scalable Systems",
   "Backend Architectures",
   "Secure APIs",
   "Robust Infrastructure",
-] satisfies Array<RoleType>;
+] as const;
 
 const SKILLS = [
   "Backend Architecture",
-  "PHP OOP",
-  "Node.js",
-  "Python",
-  "MySQL & Databases",
-  "API Design",
-  "Docker & Linux",
+  "PHP (Laravel)",
+  "MySQL & Relational Databases",
+  "React",
+  "Vue.js",
+  "REST API Design",
+  "System Architecture",
   "Git Workflows",
-  "System Security",
-  "Performance Optimization",
-] satisfies Array<SkillType>;
+  "Node.js (Express, NestJS, Next.js)",
+] as const;
 
 const PROJECTS = [
   {

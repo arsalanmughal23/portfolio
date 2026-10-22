@@ -175,8 +175,9 @@ export default function App() {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="text-lg md:text-2xl text-[#111111]/70 max-w-2xl font-normal leading-relaxed pt-4"
             >
-              I build backend systems that don't crash when 10,000 people log in at once. I
-              specialize in Node.js, relational database optimization, and high-performance APIs.
+              I architect and build production-ready web applications and APIs. My core focus is
+              robust PHP (Laravel) backends, relational databases, and modern React/Vue frontends. I
+              also leverage the Node.js ecosystem to deliver complete, end-to-end solutions.
             </motion.p>
           </div>
         </div>
@@ -366,12 +367,14 @@ export default function App() {
               About Me
             </span>
             <h2 className="text-3xl md:text-5xl font-black tracking-tight leading-tight">
-              Engineering systems that stand the test of concurrency and scale.
+              Engineering systems built for scale and concurrency.
             </h2>
             <p className="text-base md:text-lg text-[#111111]/80 leading-relaxed font-normal">
-              I am Arsalan, a Backend Heavy Full-Stack Software Engineer. I build backend systems
-              that don't crash when 10,000 people log in at once. I specialize in Node.js,
-              relational database optimization, and robust API design without unnecessary bloat.
+              As a Senior Full-Stack Engineer and Team Lead, I don't just write code—I architect
+              end-to-end digital solutions. From designing complex database schemas and secure APIs
+              to implementing responsive design systems, I take ownership of the entire lifecycle.
+              My goal is always to deliver scalable, maintainable, and high-performance
+              infrastructure.
             </p>
             <blockquote className="border-l-4 border-[#CCFF00] pl-6 py-2 my-6 font-mono italic text-lg font-bold text-[#111111]">
               "Clean code and solid server architecture beat complex workarounds every single time."
@@ -382,7 +385,7 @@ export default function App() {
 
       {/* AI Assistant Teaser Section */}
       <section className="py-20 px-6 md:px-12 max-w-7xl mx-auto">
-        <div className="border border-[#111111] bg-[#111111] text-[#F9F9F9] rounded-3xl p-8 md:p-16 relative overflow-hidden shadow-[12px_12px_0px_0px_#CCFF00]">
+        <div className="border border-[#111111] bg-[#0a1a0a] text-[#F9F9F9] rounded-3xl p-8 md:p-16 relative overflow-hidden shadow-[12px_12px_0px_0px_#CCFF00]">
           <div className="absolute top-0 right-0 w-96 h-96 bg-[#CCFF00]/10 rounded-full blur-[100px] pointer-events-none"></div>
           <div className="max-w-2xl relative z-10">
             <span className="text-xs font-mono bg-[#CCFF00] text-[#111111] px-3 py-1 rounded-full font-bold uppercase inline-block mb-4">
