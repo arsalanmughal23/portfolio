@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 // We extend the standard SVG props so we can pass className, size, etc.
 interface IconProps extends React.SVGProps<SVGSVGElement> {

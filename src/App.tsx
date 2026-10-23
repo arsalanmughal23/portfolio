@@ -1,156 +1,41 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { 
-  ArrowUpRightIcon, 
-  TerminalIcon, 
-  SparkleIcon,
-  CaretRightIcon,
-  PaperPlaneTiltIcon,
-} from '@phosphor-icons/react';
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { TerminalIcon, SparkleIcon } from "@phosphor-icons/react";
 
-import { PROJECTS, type ProjectType } from "./data/projects";
-import { displayId } from '@/lib/utils';
+import { GithubIcon as Github, LinkedinIcon as Linkedin } from "@/components/BrandIcons";
 
-import { GithubIcon as Github, LinkedinIcon as Linkedin } from './components/BrandIcons';
-import { Modal } from '@/components/Modal';
-import { ViewMoreButton } from './components/ViewMoreButton';
+import CustomCursor from "@/components/CustomCursor";
+import FloatingPreview, { type PreviewItemType } from "@/components/FloatingPreview";
 
-const ROLES = ["Scalable Systems", "Backend Architectures", "Secure APIs", "Robust Infrastructure"];
+import { MODAL_REGISTRY, type ModalKey } from "@/components/modal/registry";
+import { Modal } from "@/components/modal/Modal";
+import { ViewMoreButton } from "@/components/ViewMoreButton";
 
-const CERTIFICATIONS = [
-  {
-    year: "2025",
-    title: "Google AI & Cloud Essentials",
-    issuer: "Google Cloud",
-    credentialId: "GC-AI-8921-X",
-    link: "https://cloud.google.com",
-    featured: true
-  },
-  {
-    year: "2024",
-    title: "Microsoft Technical Fundamentals",
-    issuer: "Microsoft",
-    credentialId: "MS-TECH-5542",
-    link: "https://microsoft.com",
-    featured: false
-  },
-  {
-    year: "2023",
-    title: "Advanced Object-Oriented Programming & Systems",
-    issuer: "Professional Certification",
-    credentialId: "OOP-PHP-9021",
-    link: "#",
-    featured: false
-  },
-  {
-    year: "2022",
-    title: "GitHub Milestone & Ecosystem Achiever",
-    issuer: "GitHub",
-    credentialId: "GH-PR-QUICKDRAW",
-    link: "https://github.com",
-    featured: false
-  }
-];
-
-const SKILLS = [
-  "Backend Architecture", "PHP OOP", "Node.js", "Python", "MySQL & Databases", 
-  "API Design", "Docker & Linux", "Git Workflows", "System Security", "Performance Optimization"
-];
-
-
-// Interactive CLI Component for Task 4
-function InteractiveTerminal() {
-  const [input, setInput] = useState("");
-  const [history, setHistory] = useState<Array<{ command: string; output: string }>>([
-    { command: "init", output: "ArsalanOS v2.6.0 [Backend Core Active]. Type 'help' for available commands." }
-  ]);
-  const terminalEndRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    terminalEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [history]);
-
-  const handleCommand = (e: React.FormEvent) => {
-    e.preventDefault();
-    const cmd = input.trim().toLowerCase();
-    if (!cmd) return;
-
-    let output = "";
-    switch (cmd) {
-      case "help":
-        output = "Available commands: skills, projects, contact, clear, whoami";
-        break;
-      case "skills":
-        output = SKILLS.join(" | ");
-        break;
-      case "projects":
-        output = "1. Enterprise Core Backend\n2. Automated Data Sync\n3. Cloud Orchestrator";
-        break;
-      case "contact":
-        output = "Email: arsalan@dev.com | GitHub: github.com/arsalan";
-        break;
-      case "whoami":
-        output = "Arsalan - Backend Heavy Full-Stack Software Engineer specializing in scalable server architecture.";
-        break;
-      case "clear":
-        setHistory([]);
-        setInput("");
-        return;
-      default:
-        output = `command not found: ${cmd}. Type 'help' for options.`;
-    }
-
-    setHistory((prev) => [...prev, { command: input, output }]);
-    setInput("");
-  };
-
-  return (
-    <div className="bg-[#111111] text-[#F9F9F9] rounded-2xl border-2 border-[#111111] p-6 font-mono text-xs shadow-[8px_8px_0px_0px_#CCFF00] h-full flex flex-col justify-between">
-      <div>
-        <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-4">
-          <div className="flex gap-1.5">
-            <span className="w-3 h-3 rounded-full bg-red-500 inline-block"></span>
-            <span className="w-3 h-3 rounded-full bg-yellow-500 inline-block"></span>
-            <span className="w-3 h-3 rounded-full bg-green-500 inline-block"></span>
-          </div>
-          <span className="text-[#CCFF00] font-bold">bash - arsalan@core</span>
-        </div>
-        <div className="space-y-3 overflow-y-auto max-h-[220px] pr-2">
-          {history.map((h, i) => (
-            <div key={i} className="space-y-1">
-              <div className="text-white/50 flex items-center gap-1">
-                <span>$</span> <span className="text-[#CCFF00]">{h.command}</span>
-              </div>
-              <div className="text-white/90 whitespace-pre-line pl-4">{h.output}</div>
-            </div>
-          ))}
-          <div ref={terminalEndRef} />
-        </div>
-      </div>
-      <form onSubmit={handleCommand} className="mt-4 pt-4 border-t border-white/10 flex items-center gap-2">
-        <span className="text-[#CCFF00]">$</span>
-        <input 
-          type="text" 
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="type 'help'..."
-          className="bg-transparent outline-none w-full text-white font-mono text-xs placeholder:text-white/30"
-        />
-        <button type="submit" className="text-[#CCFF00] hover:opacity-80">
-          <PaperPlaneTiltIcon className="w-4 h-4" />
-        </button>
-      </form>
-    </div>
-  );
-}
+import { ROLES, SKILLS, PROJECTS, CERTIFICATES } from "@/data";
+import ProjectCard from "@/components/ProjectCard";
+import CertificateCard from "@/components/CertificateCard";
+import InteractiveTerminal from "@/components/InteractiveTerminal";
+import ContactSection from "@/components/ContactSection";
+import Logo from "@/components/Logo";
 
 export default function App() {
   const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
   const [isHovered, setIsHovered] = useState(false);
   const [cursorText, setCursorText] = useState("");
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
-  const [activeProject, setActiveProject] = useState<ProjectType | null>(null);
-  const [isArchiveOpen, setIsArchiveOpen] = useState(false);
+  const [activePreviewItem, setActivePreviewItem] = useState<PreviewItemType | null>(null);
+
+  const [activeModal, setActiveModal] = useState<ModalKey | null>(null);
+  const modal = activeModal ? MODAL_REGISTRY[activeModal] : null;
+
+  const handlePreviewEnter = (previewItem: PreviewItemType, text: string) => {
+    setActivePreviewItem(previewItem);
+    setCursorText(text);
+  };
+  const handlePreviewLeave = () => {
+    setActivePreviewItem(null);
+    setCursorText("");
+  };
 
   // Rotate roles in Hero smoothly
   useEffect(() => {
@@ -165,47 +50,82 @@ export default function App() {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
-
 
   return (
     <div className="bg-[#F9F9F9] text-[#111111] font-sans antialiased selection:bg-[#CCFF00] selection:text-[#111111] min-h-screen relative overflow-x-hidden">
-      
+      {/* Modal Box */}
+      <Modal
+        isOpen={activeModal !== null}
+        onOpenChange={(open) => !open && setActiveModal(null)}
+        title={modal?.title ?? ""}
+        subtitle={modal?.subtitle}
+        maxWidth={modal?.maxWidth ?? "lg"}
+      >
+        {modal?.render({
+          onPreviewStart: handlePreviewEnter,
+          onPreviewEnd: handlePreviewLeave,
+        })}
+      </Modal>
+
       {/* Custom Brutalist Follower Cursor */}
-      <CustomCursor
-        mousePosition={mousePosition}
-        cursorText={cursorText}
-        isHovered={isHovered}
-      />
+      <CustomCursor mousePosition={mousePosition} cursorText={cursorText} isHovered={isHovered} />
 
       {/* Floating Image Preview on Hover */}
       <FloatingPreview
-        project={activeProject}
+        previewItem={activePreviewItem}
         mousePosition={mousePosition}
         hasCursorText={cursorText !== ""}
       />
 
       {/* Navigation Bar */}
       <header className="fixed top-0 left-0 w-full z-40 bg-[#F9F9F9]/80 backdrop-blur-md border-b border-[#111111]/10 px-6 md:px-12 py-5 flex items-center justify-between">
-        <a 
-          href="#" 
-          className="font-black tracking-tighter text-xl uppercase flex items-center gap-2"
-          onMouseEnter={() => { setIsHovered(true); setCursorText(""); }}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          ARSALAN<span className="text-xs bg-[#CCFF00] px-1.5 py-0.5 border border-[#111111] rounded">ENG</span>
-        </a>
+        <Logo />
+
         <nav className="hidden md:flex items-center gap-8 font-medium text-sm">
-          <a href="#projects" className="hover:opacity-60 transition" onMouseEnter={() => { setIsHovered(true); setCursorText(""); }} onMouseLeave={() => setIsHovered(false)}>Works</a>
-          <a href="#credentials" className="hover:opacity-60 transition" onMouseEnter={() => { setIsHovered(true); setCursorText(""); }} onMouseLeave={() => setIsHovered(false)}>Credentials</a>
-          <a href="#about" className="hover:opacity-60 transition" onMouseEnter={() => { setIsHovered(true); setCursorText(""); }} onMouseLeave={() => setIsHovered(false)}>About</a>
+          <a
+            href="#projects"
+            className="hover:opacity-60 transition"
+            onMouseEnter={() => {
+              setIsHovered(true);
+              setCursorText("");
+            }}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            Works
+          </a>
+          <a
+            href="#credentials"
+            className="hover:opacity-60 transition"
+            onMouseEnter={() => {
+              setIsHovered(true);
+              setCursorText("");
+            }}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            Credentials
+          </a>
+          <a
+            href="#about"
+            className="hover:opacity-60 transition"
+            onMouseEnter={() => {
+              setIsHovered(true);
+              setCursorText("");
+            }}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            About
+          </a>
         </nav>
-        <a 
-          href="#contact" 
+        <a
+          href="#contact"
           className="bg-[#111111] text-[#F9F9F9] text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-full hover:bg-[#CCFF00] hover:text-[#111111] border border-[#111111] transition duration-300"
-          onMouseEnter={() => { setIsHovered(true); setCursorText(""); }}
+          onMouseEnter={() => {
+            setIsHovered(true);
+            setCursorText("");
+          }}
           onMouseLeave={() => setIsHovered(false)}
         >
           Let's Talk
@@ -216,7 +136,7 @@ export default function App() {
       <section className="pt-40 pb-24 px-6 md:px-12 max-w-7xl mx-auto min-h-screen flex flex-col justify-center">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
           <div className="lg:col-span-10">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -224,8 +144,8 @@ export default function App() {
             >
               <TerminalIcon className="w-3.5 h-3.5" /> Backend Heavy Full-Stack Engineer
             </motion.div>
-            
-            <motion.h1 
+
+            <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -249,19 +169,21 @@ export default function App() {
               </span>
             </motion.h1>
 
-            <motion.p 
+            <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
               className="text-lg md:text-2xl text-[#111111]/70 max-w-2xl font-normal leading-relaxed pt-4"
             >
-              I build backend systems that don't crash when 10,000 people log in at once. I specialize in Node.js, relational database optimization, and high-performance APIs.
+              I architect and build production-ready web applications and APIs. My core focus is
+              robust PHP (Laravel) backends, relational databases, and modern React/Vue frontends. I
+              also leverage the Node.js ecosystem to deliver complete, end-to-end solutions.
             </motion.p>
           </div>
         </div>
 
         {/* Quick Stats Grid under Hero */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
@@ -269,26 +191,34 @@ export default function App() {
         >
           <div>
             <span className="block text-3xl md:text-4xl font-black font-mono">03+</span>
-            <span className="text-xs font-mono text-[#111111]/60 uppercase tracking-wider">Years Experience</span>
+            <span className="text-xs font-mono text-[#111111]/60 uppercase tracking-wider">
+              Years Experience
+            </span>
           </div>
           <div>
             <span className="block text-3xl md:text-4xl font-black font-mono">10+</span>
-            <span className="text-xs font-mono text-[#111111]/60 uppercase tracking-wider">Production Systems</span>
+            <span className="text-xs font-mono text-[#111111]/60 uppercase tracking-wider">
+              Production Systems
+            </span>
           </div>
           <div>
             <span className="block text-3xl md:text-4xl font-black font-mono">04+</span>
-            <span className="text-xs font-mono text-[#111111]/60 uppercase tracking-wider">Global Credentials</span>
+            <span className="text-xs font-mono text-[#111111]/60 uppercase tracking-wider">
+              Global Credentials
+            </span>
           </div>
           <div>
             <span className="block text-3xl md:text-4xl font-black font-mono">100%</span>
-            <span className="text-xs font-mono text-[#111111]/60 uppercase tracking-wider">Commitment to Code</span>
+            <span className="text-xs font-mono text-[#111111]/60 uppercase tracking-wider">
+              Commitment to Code
+            </span>
           </div>
         </motion.div>
       </section>
 
       {/* Marquee Banner */}
       <div className="bg-[#111111] text-[#CCFF00] py-4 overflow-hidden border-y border-[#111111] whitespace-nowrap">
-        <motion.div 
+        <motion.div
           animate={{ x: [0, -1000] }}
           transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
           className="inline-flex gap-12 font-mono text-sm tracking-widest uppercase font-bold"
@@ -305,25 +235,31 @@ export default function App() {
       <section id="projects" className="py-32 px-6 md:px-12 max-w-7xl mx-auto relative">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 border-b border-[#111111]/10 pb-6">
           <div>
-            <span className="text-xs font-mono uppercase text-[#111111]/60 tracking-widest block mb-2">Selected Works</span>
-            <h2 className="text-4xl md:text-6xl font-black tracking-tight">FEATURED ARCHITECTURE</h2>
+            <span className="text-xs font-mono uppercase text-[#111111]/60 tracking-widest block mb-2">
+              Selected Works
+            </span>
+            <h2 className="text-4xl md:text-6xl font-black tracking-tight">
+              FEATURED ARCHITECTURE
+            </h2>
           </div>
-          <p className="text-sm font-mono text-[#111111]/70 mt-4 md:mt-0">Hover to preview system snapshots</p>
+          <p className="text-sm font-mono text-[#111111]/70 mt-4 md:mt-0">
+            Hover to preview system snapshots
+          </p>
         </div>
 
         <div className="space-y-4">
-          {PROJECTS.filter((project) => project.featured).slice(0, 3).map((project) => (
+          {PROJECTS.slice(0, 3).map((project) => (
             <ProjectCard
               key={project.id}
               project={project}
               variant="featured"
               onHoverStart={(p) => {
-                setActiveProject(p);
+                setActivePreviewItem(p);
                 setIsHovered(true);
                 setCursorText("VIEW");
               }}
               onHoverEnd={() => {
-                setActiveProject(null);
+                setActivePreviewItem(null);
                 setIsHovered(false);
                 setCursorText("");
               }}
@@ -335,10 +271,11 @@ export default function App() {
         <div className="mt-12 text-center">
           <ViewMoreButton
             label="View Full Project Archive"
+            variant="dark"
             onClick={() => {
-              setActiveProject(null);
+              setActivePreviewItem(null);
               setCursorText("");
-              setIsArchiveOpen(true);
+              setActiveModal("projects");
             }}
             onMouseEnter={() => {
               setIsHovered(true);
@@ -347,114 +284,78 @@ export default function App() {
             onMouseLeave={() => {
               setIsHovered(false);
               setCursorText("");
-              setActiveProject(null);
+              setActivePreviewItem(null);
             }}
           />
         </div>
+      </section>
 
-        {/* Full Archive Modal */}
-        <Modal
-          isOpen={isArchiveOpen}
-          onOpenChange={setIsArchiveOpen}
-          title="FULL PROJECT ARCHIVE"
-          subtitle="Complete Repository"
-          maxWidth="lg"
-        >
-          {PROJECTS.map((project) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              variant="archive"
-              onHoverStart={(p) => {
-                setActiveProject(p);
+      {/* Certifications Section (Task 3.1 Fixed: 2-column grid + Show More Accordion) */}
+      <section
+        id="credentials"
+        className="py-32 px-6 md:px-12 max-w-7xl mx-auto border-t border-[#111111]/10"
+      >
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
+          <div>
+            <span className="text-xs font-mono uppercase text-[#111111]/60 tracking-widest block mb-2">
+              Validation & Trust
+            </span>
+            <h2 className="text-4xl md:text-6xl font-black tracking-tight">
+              PROFESSIONAL CERTIFICATIONS
+            </h2>
+          </div>
+          <p className="text-sm font-mono text-[#111111]/70 mt-4 md:mt-0">
+            Verified credentials & milestones
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {CERTIFICATES.slice(0, 4).map((cert, index) => (
+            <CertificateCard
+              key={cert.id}
+              cert={cert}
+              index={index}
+              onVerifyHoverStart={() => {
+                setActivePreviewItem(cert);
                 setIsHovered(true);
-                setCursorText("VIEW");
+                setCursorText("VERIFY");
               }}
-              onHoverEnd={() => {
-                setActiveProject(null);
+              onVerifyHoverEnd={() => {
+                setActivePreviewItem(null);
                 setIsHovered(false);
                 setCursorText("");
               }}
             />
           ))}
-        </Modal>
-
-      </section>
-
-      {/* Certifications (Task 3 Fixed: Featured block + clean minimalist text list) */}
-      <section id="credentials" className="py-32 px-6 md:px-12 max-w-7xl mx-auto border-t border-[#111111]/10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
-          <div>
-            <span className="text-xs font-mono uppercase text-[#111111]/60 tracking-widest block mb-2">Validation & Trust</span>
-            <h2 className="text-4xl md:text-6xl font-black tracking-tight">CREDENTIALS & BADGES</h2>
-          </div>
-          <p className="text-sm font-mono text-[#111111]/70 mt-4 md:mt-0">Google, Microsoft & GitHub milestones</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Featured Certification (Google Cloud) */}
-          {CERTIFICATIONS.filter(c => c.featured).map((cert, index) => (
-            <div 
-              key={index} 
-              className="lg:col-span-6 p-8 md:p-10 rounded-3xl border-2 border-[#111111] bg-[#CCFF00]/20 flex flex-col justify-between shadow-[8px_8px_0px_0px_#111111]"
-            >
-              <div>
-                <div className="flex items-center justify-between mb-6">
-                  <span className="text-xs font-mono font-bold bg-[#111111] text-[#CCFF00] px-3.5 py-1.5 rounded-full">
-                    {cert.year} • FEATURED
-                  </span>
-                  <span className="text-xs font-mono font-bold uppercase tracking-wider">{cert.issuer}</span>
-                </div>
-                <h3 className="text-2xl md:text-3xl font-black mb-3">{cert.title}</h3>
-                <p className="text-xs font-mono text-[#111111]/70 mb-8">Credential ID: {cert.credentialId}</p>
-              </div>
-              <a 
-                href={cert.link} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider bg-[#111111] text-[#F9F9F9] hover:bg-[#CCFF00] hover:text-[#111111] px-5 py-3 rounded-xl border border-[#111111] w-fit transition-colors group"
-                onMouseEnter={() => { setIsHovered(true); setCursorText("VERIFY"); }}
-                onMouseLeave={() => { setIsHovered(false); setCursorText(""); }}
-              >
-                Verify Credential <CaretRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
-            </div>
-          ))}
-
-          {/* Remaining Certifications as Clean Minimalist Text List */}
-          <div className="lg:col-span-6 space-y-4">
-            {CERTIFICATIONS.filter(c => !c.featured).map((cert, index) => (
-              <div 
-                key={index}
-                className="group p-6 rounded-2xl border border-[#111111]/15 bg-white/50 flex items-center justify-between hover:border-[#111111] hover:bg-white transition duration-300"
-              >
-                <div>
-                  <div className="flex items-center gap-3 mb-1">
-                    <span className="text-xs font-mono font-bold bg-[#111111]/10 px-2 py-0.5 rounded">{cert.year}</span>
-                    <span className="text-xs font-mono text-[#111111]/60 uppercase">{cert.issuer}</span>
-                  </div>
-                  <h4 className="text-lg font-bold group-hover:text-black">{cert.title}</h4>
-                </div>
-                <a 
-                  href={cert.link} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full border border-[#111111]/20 flex items-center justify-center group-hover:bg-[#111111] group-hover:text-[#CCFF00] group-hover:border-[#111111] transition-colors shrink-0"
-                  onMouseEnter={() => { setIsHovered(true); setCursorText("GO"); }}
-                  onMouseLeave={() => { setIsHovered(false); setCursorText(""); }}
-                >
-                  <CaretRightIcon className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                </a>
-              </div>
-            ))}
-          </div>
+        <div className="mt-12 text-center">
+          <ViewMoreButton
+            label="View More Certifications"
+            onClick={() => {
+              setActivePreviewItem(null);
+              setCursorText("");
+              setActiveModal("certifications");
+            }}
+            onMouseEnter={() => {
+              setIsHovered(true);
+              setCursorText("OPEN");
+            }}
+            onMouseLeave={() => {
+              setIsHovered(false);
+              setCursorText("");
+              setActivePreviewItem(null);
+            }}
+          />
         </div>
       </section>
 
       {/* About Me Section (Split Screen) */}
-      <section id="about" className="py-32 px-6 md:px-12 max-w-7xl mx-auto border-t border-[#111111]/10">
+      <section
+        id="about"
+        className="py-32 px-6 md:px-12 max-w-7xl mx-auto border-t border-[#111111]/10"
+      >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
           {/* Left: Interactive Terminal replacing the old cliché card (Task 4) */}
           <div className="lg:col-span-5 h-[340px]">
             <InteractiveTerminal />
@@ -462,12 +363,18 @@ export default function App() {
 
           {/* Right: Conversational Bio & Pull Quotes */}
           <div className="lg:col-span-7 space-y-6">
-            <span className="text-xs font-mono uppercase text-[#111111]/60 tracking-widest block">About Me</span>
+            <span className="text-xs font-mono uppercase text-[#111111]/60 tracking-widest block">
+              About Me
+            </span>
             <h2 className="text-3xl md:text-5xl font-black tracking-tight leading-tight">
-              Engineering systems that stand the test of concurrency and scale.
+              Engineering systems built for scale and concurrency.
             </h2>
             <p className="text-base md:text-lg text-[#111111]/80 leading-relaxed font-normal">
-              I am Arsalan, a Backend Heavy Full-Stack Software Engineer. I build backend systems that don't crash when 10,000 people log in at once. I specialize in Node.js, relational database optimization, and robust API design without unnecessary bloat.
+              As a Senior Full-Stack Engineer and Team Lead, I don't just write code—I architect
+              end-to-end digital solutions. From designing complex database schemas and secure APIs
+              to implementing responsive design systems, I take ownership of the entire lifecycle.
+              My goal is always to deliver scalable, maintainable, and high-performance
+              infrastructure.
             </p>
             <blockquote className="border-l-4 border-[#CCFF00] pl-6 py-2 my-6 font-mono italic text-lg font-bold text-[#111111]">
               "Clean code and solid server architecture beat complex workarounds every single time."
@@ -476,18 +383,30 @@ export default function App() {
         </div>
       </section>
 
-      {/* Future AI Assistant Teaser Section */}
+      {/* AI Assistant Teaser Section */}
       <section className="py-20 px-6 md:px-12 max-w-7xl mx-auto">
-        <div className="border border-[#111111] bg-[#111111] text-[#F9F9F9] rounded-3xl p-8 md:p-16 relative overflow-hidden shadow-[12px_12px_0px_0px_#CCFF00]">
+        <div className="border border-[#111111] bg-[#0a1a0a] text-[#F9F9F9] rounded-3xl p-8 md:p-16 relative overflow-hidden shadow-[12px_12px_0px_0px_#CCFF00]">
           <div className="absolute top-0 right-0 w-96 h-96 bg-[#CCFF00]/10 rounded-full blur-[100px] pointer-events-none"></div>
           <div className="max-w-2xl relative z-10">
             <span className="text-xs font-mono bg-[#CCFF00] text-[#111111] px-3 py-1 rounded-full font-bold uppercase inline-block mb-4">
               Coming Soon
             </span>
-            <h3 className="text-3xl md:text-5xl font-black mb-4 tracking-tight">Personal AI Job Assistant</h3>
-            <p className="text-sm md:text-base text-[#F9F9F9]/70 font-mono mb-8 leading-relaxed">
-              An upcoming intelligent module where recruiters can paste any Job Description, and my embedded AI agent will instantly draft customized cover letters and tailored resume summaries based on my live backend portfolio records.
+            <h3 className="text-3xl md:text-5xl font-black mb-4 tracking-tight">AI Assistant</h3>
+            <p className="text-sm md:text-base text-[#F9F9F9]/80 font-mono mb-6 leading-relaxed">
+              Your 24/7 point of contact — ask questions, get quotations, check my availability, or
+              book a meeting. Covers Laravel, PHP, Node.js, Vue, React, and full-stack systems.
             </p>
+
+            {/* Chat Preview */}
+            <div className="p-4 bg-white/5 rounded-xl border border-white/10 font-mono text-xs space-y-2 max-w-md mb-6">
+              <div className="text-[#CCFF00]">
+                You → "I want a website with AI automation built in."
+              </div>
+              <div className="text-white/70">
+                Assistant → "Great — what are you building, and where should the AI fit in?"
+              </div>
+            </div>
+
             <div className="inline-flex items-center gap-2 text-xs font-mono text-[#CCFF00] bg-white/10 px-4 py-2 rounded-lg border border-white/20">
               <SparkleIcon className="w-4 h-4" /> In Active Development
             </div>
@@ -495,11 +414,18 @@ export default function App() {
         </div>
       </section>
 
+      <ContactSection />
+
       {/* Footer (Task 2 Fixed: Clean single rendering of massive typography and footer links) */}
-      <footer id="contact" className="bg-[#111111] text-[#F9F9F9] pt-32 pb-16 px-6 md:px-12 border-t border-[#111111]">
+      <footer
+        id="contact"
+        className="bg-[#111111] text-[#F9F9F9] pt-32 pb-16 px-6 md:px-12 border-t border-[#111111]"
+      >
         <div className="max-w-7xl mx-auto">
           <div className="mb-20">
-            <span className="text-xs font-mono uppercase text-[#CCFF00] tracking-widest block mb-4">Get In Touch</span>
+            <span className="text-xs font-mono uppercase text-[#CCFF00] tracking-widest block mb-4">
+              Get In Touch
+            </span>
             <h2 className="text-6xl sm:text-8xl md:text-9xl font-black tracking-tighter hover:text-[#CCFF00] transition-colors duration-300">
               LET'S CONNECT.
             </h2>
@@ -508,15 +434,30 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 border-t border-white/20 pt-12 text-sm font-mono">
             <div>
               <span className="block text-white/50 mb-2 uppercase text-xs">Direct Email</span>
-              <a href="mailto:arsalan@dev.com" className="hover:text-[#CCFF00] transition text-base font-bold">arsalan@dev.com</a>
+              <a
+                href="mailto:arsalan@dev.com"
+                className="hover:text-[#CCFF00] transition text-base font-bold"
+              >
+                arsalan@dev.com
+              </a>
             </div>
             <div>
               <span className="block text-white/50 mb-2 uppercase text-xs">Social & Code</span>
               <div className="flex gap-6">
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#CCFF00] transition flex items-center gap-1">
+                <a
+                  href="https://github.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#CCFF00] transition flex items-center gap-1"
+                >
                   <Github className="w-4 h-4" /> GitHub
                 </a>
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#CCFF00] transition flex items-center gap-1">
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#CCFF00] transition flex items-center gap-1"
+                >
                   <Linkedin className="w-4 h-4" /> LinkedIn
                 </a>
               </div>
@@ -528,190 +469,6 @@ export default function App() {
           </div>
         </div>
       </footer>
-
     </div>
-  );
-}
-
-
-function ProjectCard({
-  project,
-  variant = "archive",
-  onHoverStart,
-  onHoverEnd,
-}: {
-  project: ProjectType;
-  variant?: "featured" | "archive";
-  onHoverStart?: (p: ProjectType) => void;
-  onHoverEnd?: () => void;
-}) {
-  const isFeatured = variant === "featured";
-
-  const handleEnter = () => {
-    onHoverStart?.(project);
-  };
-  const handleLeave = () => {
-    onHoverEnd?.();
-  };
-
-  return (
-    <div
-      onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
-      className={
-        isFeatured
-          ? "group relative border border-[#111111]/15 bg-white/50 p-6 md:p-8 rounded-2xl hover:border-[#111111] hover:bg-[#CCFF00]/10 transition-all duration-300 cursor-pointer"
-          : "border border-[#111111]/15 bg-white p-6 rounded-2xl hover:border-[#111111] transition-colors cursor-pointer"
-      }
-    >
-      <div
-        className={
-          isFeatured
-            ? "flex flex-col md:flex-row md:items-center justify-between gap-6"
-            : "flex flex-col md:flex-row md:items-center justify-between gap-4"
-        }
-      >
-        <div className={isFeatured ? "flex items-start md:items-center gap-6" : "flex items-start md:items-center gap-4"}>
-          <span
-            className={
-              isFeatured
-                ? "text-sm font-mono text-[#111111]/40 font-bold"
-                : "text-xs font-mono text-[#111111]/40 font-bold"
-            }
-          >
-            { displayId(project.id) }
-          </span>
-          <div>
-            <span
-              className={
-                isFeatured
-                  ? "text-xs font-mono text-[#111111]/60 uppercase tracking-wider mb-1 block"
-                  : "text-[10px] font-mono text-[#111111]/60 uppercase tracking-wider block"
-              }
-            >
-              {project.category}
-            </span>
-            <h3
-              className={
-                isFeatured
-                  ? "text-2xl md:text-3xl font-bold group-hover:translate-x-2 transition-transform duration-300"
-                  : "text-lg font-bold"
-              }
-            >
-              {project.title}
-            </h3>
-            <p className={isFeatured ? "text-sm text-[#111111]/70 mt-2 max-w-xl" : "text-xs text-[#111111]/70 mt-1"}>
-              {project.description}
-            </p>
-          </div>
-        </div>
-
-        <div
-          className={
-            isFeatured
-              ? "flex items-center justify-between md:justify-end gap-6 w-full md:w-auto"
-              : "flex items-center justify-between md:justify-end gap-4"
-          }
-        >
-          <div className={isFeatured ? "flex flex-wrap gap-1.5 max-w-[200px]" : "flex flex-wrap gap-1"}>
-            {project.tech.map((t, i) => (
-              <span
-                key={i}
-                className={
-                  isFeatured
-                    ? "text-[10px] font-mono bg-[#111111]/5 border border-[#111111]/10 px-2 py-1 rounded"
-                    : "text-[9px] font-mono bg-[#111111]/5 px-2 py-0.5 rounded border border-[#111111]/10"
-                }
-              >
-                {t}
-              </span>
-            ))}
-          </div>
-          <a
-            href={project.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={
-              isFeatured
-                ? "w-12 h-12 rounded-full border border-[#111111] flex items-center justify-center bg-[#111111] text-[#F9F9F9] group-hover:bg-[#CCFF00] group-hover:text-[#111111] transition-colors shrink-0"
-                : "w-10 h-10 rounded-full border border-[#111111] flex items-center justify-center bg-[#111111] text-[#F9F9F9] hover:bg-[#CCFF00] hover:text-[#111111] transition-colors shrink-0"
-            }
-          >
-            <ArrowUpRightIcon className={isFeatured ? "w-5 h-5" : "w-4 h-4"} />
-          </a>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-
-function CustomCursor({
-  mousePosition,
-  cursorText,
-  isHovered,
-}: {
-  mousePosition: { x: number; y: number };
-  cursorText: string;
-  isHovered: boolean;
-}) {
-  const hasText = cursorText !== "";
-
-  return (
-    <motion.div
-      className="fixed top-0 left-0 w-4 h-4 bg-[#111111] rounded-full pointer-events-none z-[70] hidden md:flex items-center justify-center text-[8px] font-mono font-bold text-[#111111]"
-      animate={{
-        x: mousePosition.x - (hasText ? 32 : 8),
-        y: mousePosition.y - (hasText ? 32 : 8),
-        scale: hasText ? 4 : isHovered ? 2.5 : 1,
-        backgroundColor: hasText || isHovered ? "#CCFF00" : "#111111",
-      }}
-      transition={{ type: "spring", stiffness: 500, damping: 28 }}
-    >
-      {hasText && (
-        <span className="scale-[0.35] tracking-tighter uppercase">{cursorText}</span>
-      )}
-    </motion.div>
-  );
-}
-
-function FloatingPreview({
-  project,
-  mousePosition,
-  hasCursorText,
-}: {
-  project: ProjectType | null;
-  mousePosition: { x: number; y: number };
-  hasCursorText: boolean;
-}) {
-
-  return (
-    <AnimatePresence>
-      {project && project?.previewImage && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-            rotate: 0,
-            x: mousePosition.x + (hasCursorText ? 15 : 8),
-            y: mousePosition.y - (hasCursorText ? 100 : 8),
-          }}
-          exit={{ opacity: 0, scale: 0.8, rotate: 5 }}
-          transition={{ type: "spring", stiffness: 300, damping: 25 }}
-          className="fixed top-0 left-0 pointer-events-none z-[60] hidden lg:block w-[320px] h-[200px] rounded-xl overflow-hidden border-2 border-[#111111] shadow-2xl bg-[#111111]"
-        >
-          <img
-            src={project.previewImage}
-            alt={project.title}
-            className="w-full h-full object-cover opacity-90"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-transparent to-transparent opacity-80" />
-          <span className="absolute bottom-3 left-3 text-xs font-mono text-[#CCFF00] font-bold">
-            SYSTEM PREVIEW
-          </span>
-        </motion.div>
-      )}
-    </AnimatePresence>
   );
 }
