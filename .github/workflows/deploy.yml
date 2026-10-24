@@ -43,6 +43,16 @@ jobs:
         env:
           VITE_LEAD_WEBHOOK_URL: ${{ secrets.VITE_LEAD_WEBHOOK_URL }}
 
+      - name: Debug Vite Env
+        run: |
+          if [ -z "${{ secrets.VITE_LEAD_WEBHOOK_URL }}" ]; then
+            echo "::error::Secret is EMPTY or not defined!"
+          else
+            echo "Secret is defined (length: ${#VAR})"
+          fi
+        env:
+          VAR: ${{ secrets.VITE_LEAD_WEBHOOK_URL }}
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
