@@ -19,6 +19,7 @@
 
     "deploy": "gh workflow run \"Deploy to GitHub Pages\" -f branch=main",
     "deploy:staging": "gh workflow run \"Deploy to GitHub Pages\" -f branch=staging",
+    "deploy:dev": "gh workflow run \"Deploy to GitHub Pages\" -f branch=dev",
     "deploy:watch": "gh run watch",
     "deploy:runs": "gh run list --workflow=deploy.yml",
     "deploy:logs": "gh run view --log-failed"
